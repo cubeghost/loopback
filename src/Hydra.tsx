@@ -6,12 +6,32 @@ import {
   Hydra as HydraLib,
   type Mouse,
 } from "hydra-ts";
-import { useSketch } from "./state/sketch";
+import { useSketch, type SketchState } from "./state/sketch";
+import "./Hydra.css";
 
 const width = 512;
 const height = 512;
 
-export function Hydra(props) {
+function generateHydraCode(sketch: Pick<SketchState, "inputs" | "feedback">) {
+  const code: string[] = [];
+
+  Object.values(sketch.inputs).forEach((input, index) => {
+    switch (input.source.type) {
+      case "webcam":
+        code.push(`s${index}.initCam(${input.source.webcamIndex ?? ""})`);
+        return;
+      case "video":
+        code.push(`s${index}.initVideo(${input.source.url ?? ""})`);
+        return;
+      case "screen":
+        code.push(`s${index}.initScreen()`);
+    }
+  });
+
+  return code.join("\n");
+}
+
+export function Hydra() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hydraRef = useRef<InstanceType<typeof HydraLib>>(null);
   const mouseRef = useRef<Mouse>(null);
@@ -32,35 +52,27 @@ export function Hydra(props) {
     const { sources, outputs, hush } = hydra;
 
     hush();
+
+    const output = outputs[3];
     Object.values(sketch.inputs).forEach((input, index) => {
-      if (input.source.type === "webcam") {
-        sources[index].initCam(input.source.webcamIndex ?? undefined);
-        console.log(sources[index]);
+      switch (input.source.type) {
+        case "webcam":
+          sources[index].initCam(input.source.webcamIndex ?? undefined);
+          return;
+        case "video":
+          sources[index].initVideo(input.source.url);
+          return;
+        case "screen":
+          sources[index].initScreen();
+          return;
+        default:
+          return;
       }
     });
 
-    const [s0, s1, s2, s3] = sources;
-    const [o0, o1, o2, o3] = outputs;
     const { loop, render } = hydra;
 
     loop.start();
-
-    // https://hydra.ojack.xyz/?sketch_id=example_14
-    // osc(20, 0.01, 1.1)
-    //   .kaleid(5)
-    //   .color(2.83, 0.91, 0.39)
-    // src(s0)
-    //   // .rotate(0, 0.1)
-    //   .modulate(o0, () => x() * 0.4)
-    //   .scale(1.01)
-    //   .out(o0);
-
-    // FEEDBACK SPECIAL SAUCE
-    // src(s0).scale(0.5).out(o1);
-    // src(o0)
-    //   .layer(src(o1).luma(0.1, 1e-6))
-    //   .modulateScale(src(o0).scale(1.01), 1)
-    //   .out();
 
     Object.values(sketch.inputs).forEach((input, index) => {
       let source = src(sources[index]);
@@ -70,36 +82,22 @@ export function Hydra(props) {
       source.scale(0.5).out(outputs[index]);
     });
 
-    src(o3)
+    src(output)
       .layer(src(outputs[sketch.feedback.mainSource]).luma(0.1, 1e-6))
       .modulateScale(
         src(
           sketch.feedback.modulateSource !== "self"
             ? outputs[sketch.feedback.modulateSource]
-            : o3,
+            : output,
         ).scale(1.01),
         1,
       )
-      .out(o3);
+      .out(output);
 
-    render(o3);
-
-    // voronoi(8, 1)
-    //   .mult(
-    //     osc(10, 0.1, ({ time }) => Math.sin(time) * 3)
-    //       .saturate(3)
-    //       .kaleid(200),
-    //   )
-    //   .modulate(o0, 0.5)
-    //   .add(o0, 0.8)
-    //   .scrollY(-0.01)
-    //   .scale(0.99)
-    //   .modulate(voronoi(8, 1), 0.008)
-    //   .luma(0.3)
-    //   .out();
-
-    // hydra.synth.speed = 0.1;
+    render(output);
   }
+
+  const hydraCode = generateHydraCode(sketch);
 
   useEffect(() => {
     runHydra();
@@ -123,8 +121,8 @@ export function Hydra(props) {
       });
       const hydra = new HydraLib({
         regl,
-        width: 512,
-        height: 512,
+        width,
+        height,
         precision: detectPrecision(),
       });
       hydraRef.current = hydra;
@@ -138,6 +136,13 @@ export function Hydra(props) {
   }, []);
 
   return (
-    <canvas ref={canvasRef} width={512} height={512} style={{ width: 512 }} />
+    <div className="hydra">
+      <canvas ref={canvasRef} width={width} height={height} style={{ width }} />
+      {/* <div style={{ maxWidth: width, overflow: "scroll" }}>
+        <code>
+          <pre>{hydraCode}</pre>
+        </code>
+      </div> */}
+    </div>
   );
 }

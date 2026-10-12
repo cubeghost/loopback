@@ -13,6 +13,14 @@ interface SourceProps {
   setSource: (source: SketchSource) => void;
 }
 
+const DEFAULT_VALUES: {
+  [K in SketchSource["type"]]: Omit<Extract<SketchSource, { type: K }>, "type">;
+} = {
+  webcam: { webcamIndex: 0 },
+  video: { url: "" },
+  screen: {},
+};
+
 export function Source({ source, setSource }: SourceProps) {
   const [file, setFile] = useState<File | null>(null);
   const webcams = useGlobalState(useShallow((state) => state.webcams));
@@ -30,11 +38,23 @@ export function Source({ source, setSource }: SourceProps) {
     });
   }
 
+  function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
+    const type = event.target.value;
+    setSource({
+      type,
+      ...DEFAULT_VALUES[type],
+    });
+  }
+
   return (
     <div {...getRootProps({ className: "source" })}>
       <fieldset>
         <legend>Source</legend>
-        <span>{source.type}</span>
+        <select value={source.type} onChange={handleTypeChange}>
+          <option>webcam</option>
+          <option>video</option>
+          <option>screen</option>
+        </select>
         {source.type === "webcam" && (
           <div>
             <select value={source.webcamIndex} onChange={handleWebcamChange}>

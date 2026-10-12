@@ -1,9 +1,17 @@
 import { create } from "zustand";
 
-export type SketchSource = {
-  type: "webcam";
-  webcamIndex: number | string;
-};
+export type SketchSource =
+  | {
+      type: "webcam";
+      webcamIndex: number | string;
+    }
+  | {
+      type: "video";
+      url: string;
+    }
+  | {
+      type: "screen";
+    };
 
 export type SketchEffect = {};
 
@@ -29,8 +37,14 @@ export interface SketchState {
 
 export const useSketch = create<SketchState>()((set) => ({
   inputs: {
-    0: { source: { type: "webcam", webcamIndex: 1 }, effect: true },
-    1: { source: { type: "webcam", webcamIndex: 1 }, effect: false },
+    0: { source: { type: "webcam", webcamIndex: 1 }, effect: false },
+    1: {
+      source: {
+        type: "video",
+        url: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDI0cGUxdWY5M2hneDJrdjNleWxoenEwenI2cHYzeDc3bHBmdjFlcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5xtDarpJpIPHFGJrRrG/giphy.mp4",
+      },
+      effect: false,
+    },
   },
   setInputSource: (index, source) =>
     set((state) => ({
