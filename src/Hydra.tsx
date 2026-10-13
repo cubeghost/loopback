@@ -17,8 +17,8 @@ function generateHydraCode(sketch: Pick<SketchState, "inputs" | "feedback">) {
 
   Object.values(sketch.inputs).forEach((input, index) => {
     switch (input.source.type) {
-      case "webcam":
-        code.push(`s${index}.initCam(${input.source.webcamIndex ?? ""})`);
+      case "camera":
+        code.push(`s${index}.initCam(${input.source.cameraIndex ?? ""})`);
         return;
       case "video":
         code.push(`s${index}.initVideo(${input.source.url ?? ""})`);
@@ -56,11 +56,11 @@ export function Hydra() {
     const output = outputs[3];
     Object.values(sketch.inputs).forEach((input, index) => {
       switch (input.source.type) {
-        case "webcam":
-          sources[index].initCam(input.source.webcamIndex ?? undefined);
+        case "camera":
+          sources[index].initCam(input.source.cameraIndex ?? undefined);
           return;
         case "video":
-          sources[index].initVideo(input.source.url);
+          sources[index].initVideo(input.source.videoUrl);
           return;
         case "screen":
           sources[index].initScreen();
@@ -75,8 +75,17 @@ export function Hydra() {
     loop.start();
 
     Object.values(sketch.inputs).forEach((input, index) => {
-      let source = src(sources[index]);
-      if (input.effect) {
+      let source = (() => {
+        switch (input.source.type) {
+          case "camera":
+          case "video":
+          case "screen":
+            return src(sources[index]);
+          case "noise":
+            return noise(input.source.noiseScale, input.source.noiseSpeed);
+        }
+      })();
+      if (input.effect.enabled) {
         source = source.mult(osc(20, -0.1, 1).rotate(Math.PI * 0.5));
       }
       source.scale(0.5).out(outputs[index]);

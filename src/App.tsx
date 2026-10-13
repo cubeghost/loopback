@@ -8,7 +8,9 @@ import { useGlobalState } from "./state/global";
 import { Input } from "./Input";
 
 function App() {
-  const setWebcams = useGlobalState(useShallow((state) => state.setWebcams));
+  const setVideoSources = useGlobalState(
+    useShallow((state) => state.setVideoSources),
+  );
 
   useEffect(() => {
     (async () => {
@@ -16,7 +18,7 @@ function App() {
       const videoSources = devices.filter(
         (device) => device.kind === "videoinput",
       );
-      setWebcams(videoSources);
+      setVideoSources(videoSources);
     })();
   }, []);
 

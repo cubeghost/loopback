@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 interface GlobalState {
-  webcams: MediaDeviceInfo[];
-  setWebcams: (webcams: MediaDeviceInfo[]) => void;
+  videoSources: MediaDeviceInfo[];
+  setVideoSources: (videoSources: MediaDeviceInfo[]) => void;
 }
 
 export const useGlobalState = create<GlobalState>()((set) => ({
-  webcams: [],
-  setWebcams: (webcams) => set(() => ({ webcams })),
+  videoSources: [],
+  setVideoSources: (videoSources) => set(() => ({ videoSources })),
 }));

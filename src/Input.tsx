@@ -32,8 +32,8 @@ export function Input({ index }: InputProps) {
         <legend>Effect</legend>
         <input
           type="checkbox"
-          checked={!!input.effect}
-          onChange={(e) => setEffect(index, e.target.checked)}
+          checked={!!input.effect.enabled}
+          onChange={(e) => setEffect(index, { enabled: e.target.checked })}
         />
       </fieldset>
     </div>

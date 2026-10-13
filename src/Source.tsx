@@ -10,20 +10,11 @@ import { useShallow } from "zustand/shallow";
 interface SourceProps {
   index: number;
   source: SketchSource;
-  setSource: (source: SketchSource) => void;
+  setSource: (source: Partial<SketchSource>) => void;
 }
-
-const DEFAULT_VALUES: {
-  [K in SketchSource["type"]]: Omit<Extract<SketchSource, { type: K }>, "type">;
-} = {
-  webcam: { webcamIndex: 0 },
-  video: { url: "" },
-  screen: {},
-};
-
 export function Source({ source, setSource }: SourceProps) {
   const [file, setFile] = useState<File | null>(null);
-  const webcams = useGlobalState(useShallow((state) => state.webcams));
+  const videoSources = useGlobalState((state) => state.videoSources);
 
   const { getRootProps, getInputProps, isDragGlobal } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -31,18 +22,22 @@ export function Source({ source, setSource }: SourceProps) {
     },
   });
 
-  function handleWebcamChange(event: ChangeEvent<HTMLSelectElement>) {
+  function handleCameraChange(event: ChangeEvent<HTMLSelectElement>) {
     setSource({
-      type: "webcam",
-      webcamIndex: event.target.value,
+      cameraIndex: event.target.value,
+    });
+  }
+
+  function handleVideoUrlChange(event: ChangeEvent<HTMLInputElement>) {
+    setSource({
+      videoUrl: event.target.value,
     });
   }
 
   function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
-    const type = event.target.value;
+    const type = event.target.value as SketchSource["type"];
     setSource({
       type,
-      ...DEFAULT_VALUES[type],
     });
   }
 
@@ -51,20 +46,53 @@ export function Source({ source, setSource }: SourceProps) {
       <fieldset>
         <legend>Source</legend>
         <select value={source.type} onChange={handleTypeChange}>
-          <option>webcam</option>
+          <option>camera</option>
           <option>video</option>
           <option>screen</option>
+          <option>noise</option>
         </select>
-        {source.type === "webcam" && (
+        {source.type === "camera" && (
           <div>
-            <select value={source.webcamIndex} onChange={handleWebcamChange}>
-              {webcams.map((webcam, index) => (
-                <option key={webcam.deviceId} value={index}>
-                  {webcam.label}
+            <select value={source.cameraIndex} onChange={handleCameraChange}>
+              {videoSources.map((videoSource, index) => (
+                <option key={videoSource.deviceId} value={index}>
+                  {videoSource.label}
                 </option>
               ))}
             </select>
           </div>
+        )}
+        {source.type === "video" && (
+          <div>
+            <label>
+              <span>URL</span>
+              <input
+                type="text"
+                name="videoUrl"
+                value={source.videoUrl}
+                onChange={(event) =>
+                  setSource({ videoUrl: event.target.value })
+                }
+              />
+            </label>
+          </div>
+        )}
+        {source.type === "noise" && (
+          <>
+            <div>
+              <label>
+                <span>Scale</span>
+                <input
+                  type="number"
+                  name="noiseScale"
+                  value={source.noiseScale}
+                  onChange={(event) =>
+                    setSource({ noiseScale: parseInt(event.target.value) })
+                  }
+                />
+              </label>
+            </div>
+          </>
         )}
         {file ? <span>file.name</span> : null}
         {/* <input {...getInputProps()} /> */}
