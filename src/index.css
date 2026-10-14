@@ -10,7 +10,7 @@
 
 body {
   margin: 0;
-  background-color: #222;
+  background-color: #1b2632;
   color: #fff;
 }
 
@@ -55,4 +55,10 @@ label.control input[type=range] {
 
 fieldset {
   border: 0;
+}
+
+legend {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }

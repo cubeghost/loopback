@@ -1,7 +1,9 @@
 .hydra-code {
   grid-area: code;
+
 }
 
 .hydra-code pre {
   overflow: scroll;
+  opacity: 0.5;
 }

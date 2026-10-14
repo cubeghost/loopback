@@ -11,11 +11,13 @@ interface InputProps {
 }
 
 export function Input({ index }: InputProps) {
-  const { input, setSource, setEffect } = useSketch(
+  const { input, isActive, setSource, setEffect, setFeedback } = useSketch(
     useShallow((state) => ({
       input: state.inputs[index],
       setSource: state.setInputSource,
       setEffect: state.setInputEffect,
+      isActive: state.feedback.input === index,
+      setFeedback: state.setFeedback,
     })),
   );
 
@@ -37,7 +39,19 @@ export function Input({ index }: InputProps) {
       <div
         className="input-connect"
         style={{ "--grid-area": `input-connect-${index}` }}
-      ></div>
+      >
+        <label>
+          <span className="visually-hidden">Input {index}</span>
+          <input
+            type="radio"
+            id={`input-${index}`}
+            name="mixer-input"
+            value={index}
+            checked={isActive}
+            onChange={(e) => setFeedback({ input: parseInt(e.target.value) })}
+          />
+        </label>
+      </div>
     </>
   );
 }

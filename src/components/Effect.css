@@ -1,3 +1,7 @@
 .effect {
   background-color: #ad9d33;
 }
+
+.effect:has(.effect-enabled:checked) {
+  color: red;
+}

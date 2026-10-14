@@ -2,25 +2,11 @@ import { useSketch } from "../state/sketch";
 import "./Mixer.css";
 
 export function Mixer() {
-  const { inputs, feedback, setFeedback, audioReactive, setAudioReactive } =
+  const { feedback, setFeedback, audioReactive, setAudioReactive } =
     useSketch();
 
   return (
     <div className="mixer">
-      {Object.keys(inputs).map((index) => (
-        <label key={index}>
-          <span className="visually-hidden">Input {index}</span>
-          <input
-            type="radio"
-            id={`input-${index}`}
-            name="mixer-input"
-            value={index}
-            checked={feedback.source.toString() === index}
-            onChange={(e) => setFeedback({ source: parseInt(e.target.value) })}
-          />
-        </label>
-      ))}
-
       <fieldset>
         <legend>Feedback</legend>
         <div>

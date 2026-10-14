@@ -2,7 +2,7 @@ import type { SketchState } from "./state/sketch";
 
 function generateHydraFeedbackCode(o: string, sketch: SketchState) {
   const {
-    feedback: { source, threshold, intensity, scale, offset },
+    feedback: { input, threshold, intensity, scale, offset },
     audioReactive,
   } = sketch;
 
@@ -12,7 +12,7 @@ function generateHydraFeedbackCode(o: string, sketch: SketchState) {
 
   return [
     `src(${o})`,
-    `    .layer(src(o${source}).luma(${threshold},1e-6))`,
+    `    .layer(src(o${input}).luma(${threshold},1e-6))`,
     `    .modulateScale(src(${o}).scale(1 + ${intensity}),${scaleValue},${offset})`,
     `    .out(${o})`,
   ].join("\n");

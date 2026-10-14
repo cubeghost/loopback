@@ -10,12 +10,18 @@ export function Effect({ effect, setEffect }: EffectProps) {
   return (
     <div className="effect">
       <fieldset>
-        <legend>Effect</legend>
-        <input
-          type="checkbox"
-          checked={!!effect.enabled}
-          onChange={(e) => setEffect({ enabled: e.target.checked })}
-        />
+        <legend>
+          <span>Effect</span>
+          <label>
+            <input
+              type="checkbox"
+              className="effect-enabled"
+              checked={!!effect.enabled}
+              onChange={(e) => setEffect({ enabled: e.target.checked })}
+            />
+            Enabled
+          </label>
+        </legend>
       </fieldset>
     </div>
   );

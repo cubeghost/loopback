@@ -33,7 +33,7 @@ export type SketchInput = {
 };
 
 export interface SketchFeedback {
-  source: number;
+  input: number;
   scale: string;
   offset: string;
   threshold: string;
@@ -105,7 +105,7 @@ export const useSketch = create<SketchState>()((set) => ({
     })),
 
   feedback: {
-    source: 0,
+    input: 0,
     threshold: "0.1",
     scale: "1",
     offset: "1",
