@@ -1,0 +1,7 @@
+.hydra {
+  grid-area: hydra;
+}
+
+.hydra iframe {
+  border: 0;
+}

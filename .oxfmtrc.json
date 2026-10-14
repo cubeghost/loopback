@@ -5,7 +5,7 @@
       ["builtin", "external"],
       "internal",
       ["parent", "sibling", "index"],
-      "style",
+      ["side_effect_style", "style"],
       "unknown"
     ]
   }

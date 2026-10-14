@@ -12,7 +12,7 @@ export type SketchSource =
   | {
       type: "screen";
     }
-  | { type: "noise"; noiseScale: number; noiseSpeed: number };
+  | { type: "noise"; noiseScale: string; noiseSpeed: string };
 
 const DEFAULT_SOURCE_VALUES: {
   [K in SketchSource["type"]]: Omit<Extract<SketchSource, { type: K }>, "type">;
@@ -20,7 +20,7 @@ const DEFAULT_SOURCE_VALUES: {
   camera: { cameraIndex: 0 },
   video: { videoUrl: "" },
   screen: {},
-  noise: { noiseScale: 10, noiseSpeed: 0.5 },
+  noise: { noiseScale: "5", noiseSpeed: "0.5" },
 };
 
 export type SketchEffect = {
@@ -33,12 +33,16 @@ export type SketchInput = {
 };
 
 export interface SketchFeedback {
-  mainSource: number;
-  modulateSource: number | "self";
-  scale: number;
-  offset: number;
-  threshold: number;
-  intensity: number;
+  source: number;
+  scale: string;
+  offset: string;
+  threshold: string;
+  intensity: string;
+}
+
+export interface SketchAudioReactive {
+  enabled: boolean;
+  amount: string;
 }
 
 export interface SketchState {
@@ -48,6 +52,9 @@ export interface SketchState {
 
   feedback: SketchFeedback;
   setFeedback: (partial: Partial<SketchFeedback>) => void;
+
+  audioReactive: SketchAudioReactive;
+  setAudioReactive: (partial: Partial<SketchAudioReactive>) => void;
 }
 
 export const useSketch = create<SketchState>()((set) => ({
@@ -98,13 +105,19 @@ export const useSketch = create<SketchState>()((set) => ({
     })),
 
   feedback: {
-    mainSource: 0,
-    modulateSource: "self",
-    threshold: 0.1,
-    scale: 1,
-    offset: 1,
-    intensity: 0.008,
+    source: 0,
+    threshold: "0.1",
+    scale: "1",
+    offset: "1",
+    intensity: "0.008",
   },
   setFeedback: (partial) =>
     set((state) => ({ feedback: { ...state.feedback, ...partial } })),
+
+  audioReactive: {
+    enabled: true,
+    amount: "1",
+  },
+  setAudioReactive: (partial) =>
+    set((state) => ({ audioReactive: { ...state.audioReactive, ...partial } })),
 }));

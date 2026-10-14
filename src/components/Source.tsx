@@ -1,17 +1,16 @@
 import { useState, type ChangeEvent } from "react";
 import { useDropzone } from "react-dropzone";
 
-import { type SketchSource } from "./state/sketch";
+import { type SketchSource } from "../state/sketch";
 
 import "./Source.css";
-import { useGlobalState } from "./state/global";
-import { useShallow } from "zustand/shallow";
+import { useGlobalState } from "../state/global";
 
 interface SourceProps {
-  index: number;
   source: SketchSource;
   setSource: (source: Partial<SketchSource>) => void;
 }
+
 export function Source({ source, setSource }: SourceProps) {
   const [file, setFile] = useState<File | null>(null);
   const videoSources = useGlobalState((state) => state.videoSources);
@@ -21,18 +20,6 @@ export function Source({ source, setSource }: SourceProps) {
       setFile(acceptedFiles[0]);
     },
   });
-
-  function handleCameraChange(event: ChangeEvent<HTMLSelectElement>) {
-    setSource({
-      cameraIndex: event.target.value,
-    });
-  }
-
-  function handleVideoUrlChange(event: ChangeEvent<HTMLInputElement>) {
-    setSource({
-      videoUrl: event.target.value,
-    });
-  }
 
   function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
     const type = event.target.value as SketchSource["type"];
@@ -53,10 +40,17 @@ export function Source({ source, setSource }: SourceProps) {
         </select>
         {source.type === "camera" && (
           <div>
-            <select value={source.cameraIndex} onChange={handleCameraChange}>
+            <select
+              value={source.cameraIndex}
+              onChange={(event) =>
+                setSource({
+                  cameraIndex: event.target.value,
+                })
+              }
+            >
               {videoSources.map((videoSource, index) => (
                 <option key={videoSource.deviceId} value={index}>
-                  {videoSource.label}
+                  {videoSource.label ?? index}
                 </option>
               ))}
             </select>
@@ -87,7 +81,7 @@ export function Source({ source, setSource }: SourceProps) {
                   name="noiseScale"
                   value={source.noiseScale}
                   onChange={(event) =>
-                    setSource({ noiseScale: parseInt(event.target.value) })
+                    setSource({ noiseScale: event.target.value })
                   }
                 />
               </label>

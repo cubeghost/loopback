@@ -1,5 +1,11 @@
 .source {
   position: relative;
+  background-color: #a3ce27;
+  margin: 1rem 0;
+}
+
+.source fieldset {
+  border: 0;
 }
 
 .source-drag-overlay {

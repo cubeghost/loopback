@@ -1,3 +1,4 @@
+import path from "node:path";
 import { defineConfig } from "vite";
 import react, { reactCompilerPreset } from "@vitejs/plugin-react";
 import babel from "@rolldown/plugin-babel";
@@ -10,4 +11,15 @@ export default defineConfig({
       presets: [reactCompilerPreset()],
     }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        main: path.resolve(import.meta.dirname, "index.html"),
+        about: path.resolve(import.meta.dirname, "frame.html"),
+      },
+    },
+  },
+  server: {
+    cors: true,
+  },
 });

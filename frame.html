@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>unnamed-creative-tool hydra frame</title>
+  <script src="https://cdn.jsdelivr.net/npm/hydra-synth/dist/hydra-synth.js"></script>
+</head>
+
+<body style="margin: 0">
+  <script>
+    const hydra = new Hydra({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+
+    // window.addEventListener("DOMContentLoaded", () => {
+    //   window.parent.postMessage({ type: "ready" });
+    // });
+
+    const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
+    const run = async (code) => {
+      //   const fn = new AsyncFunction("hydra", `
+      //     with(hydra) {
+      //         ${code}
+      //     }
+      // `)
+      // return await fn(hydra);
+      try {
+        eval(code)
+      } catch (err) {
+        console.log(err)
+      }
+    };
+
+    window.addEventListener("message", (event) => {
+      if (event.data.type === "hydra") {
+        run(event.data.code);
+      }
+    });
+  </script>
+</body>
+
+</html>
