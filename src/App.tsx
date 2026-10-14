@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
 import { useGlobalState } from "./state/global";
 import { Input } from "./Input";
+import { HYDRA_HEIGHT, HYDRA_WIDTH } from "./constants";
 
 function App() {
   const setVideoSources = useGlobalState(
@@ -25,7 +26,13 @@ function App() {
   const { inputs, feedback, setFeedback } = useSketch();
 
   return (
-    <div className="app">
+    <div
+      className="app"
+      style={{
+        "--hydra-width": `${HYDRA_WIDTH}px`,
+        "--hydra-height": `${HYDRA_HEIGHT}px`,
+      }}
+    >
       <Input index={0} />
       <Input index={1} />
 
@@ -67,6 +74,60 @@ function App() {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label>
+              Threshold
+              <input
+                type="range"
+                value={feedback.threshold}
+                step={0.05}
+                min={0}
+                max={1}
+                onChange={(event) =>
+                  setFeedback({ threshold: parseFloat(event.target.value) })
+                }
+              />
+            </label>
+            <label>
+              Intensity
+              <input
+                type="range"
+                value={feedback.intensity}
+                step={0.01}
+                min={0.01}
+                max={0.2}
+                onChange={(event) =>
+                  setFeedback({ intensity: parseFloat(event.target.value) })
+                }
+              />
+            </label>
+            <label>
+              Scale
+              <input
+                type="range"
+                value={feedback.scale}
+                step={0.05}
+                min={-2}
+                max={2}
+                onChange={(event) =>
+                  setFeedback({ scale: parseFloat(event.target.value) })
+                }
+              />
+            </label>
+            <label>
+              Offset
+              <input
+                type="range"
+                value={feedback.offset}
+                step={0.25}
+                min={-2}
+                max={2}
+                onChange={(event) =>
+                  setFeedback({ offset: parseFloat(event.target.value) })
+                }
+              />
+            </label>
           </div>
         </fieldset>
       </div>

@@ -8,9 +8,10 @@ import {
 } from "hydra-ts";
 import { useSketch, type SketchState } from "./state/sketch";
 import "./Hydra.css";
+import { HYDRA_HEIGHT, HYDRA_WIDTH } from "./constants";
 
-const width = 512;
-const height = 512;
+const width = HYDRA_WIDTH;
+const height = HYDRA_HEIGHT;
 
 function generateHydraCode(sketch: Pick<SketchState, "inputs" | "feedback">) {
   const code: string[] = [];
@@ -21,7 +22,7 @@ function generateHydraCode(sketch: Pick<SketchState, "inputs" | "feedback">) {
         code.push(`s${index}.initCam(${input.source.cameraIndex ?? ""})`);
         return;
       case "video":
-        code.push(`s${index}.initVideo(${input.source.url ?? ""})`);
+        code.push(`s${index}.initVideo(${input.source.videoUrl ?? ""})`);
         return;
       case "screen":
         code.push(`s${index}.initScreen()`);
@@ -92,14 +93,20 @@ export function Hydra() {
     });
 
     src(output)
-      .layer(src(outputs[sketch.feedback.mainSource]).luma(0.1, 1e-6))
+      .layer(
+        src(outputs[sketch.feedback.mainSource]).luma(
+          sketch.feedback.threshold,
+          1e-6,
+        ),
+      )
       .modulateScale(
         src(
           sketch.feedback.modulateSource !== "self"
             ? outputs[sketch.feedback.modulateSource]
             : output,
-        ).scale(1.01),
-        1,
+        ).scale(1 + sketch.feedback.intensity),
+        sketch.feedback.scale,
+        sketch.feedback.offset,
       )
       .out(output);
 

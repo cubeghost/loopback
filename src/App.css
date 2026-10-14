@@ -1,7 +1,7 @@
 .app {
   display: grid;
-  grid-template-columns: 1fr 512px 1fr;
-  grid-template-rows: 512px 1fr;
+  grid-template-columns: 1fr var(--hydra-width) 1fr;
+  grid-template-rows: var(--hydra-height) 1fr;
   grid-template-areas: "input0 hydra input1"
     "input0 mixer input1";
 }

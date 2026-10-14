@@ -34,8 +34,11 @@ export type SketchInput = {
 
 export interface SketchFeedback {
   mainSource: number;
-  modulateSource: number | "self"; // null = self
-  // luma
+  modulateSource: number | "self";
+  scale: number;
+  offset: number;
+  threshold: number;
+  intensity: number;
 }
 
 export interface SketchState {
@@ -97,6 +100,10 @@ export const useSketch = create<SketchState>()((set) => ({
   feedback: {
     mainSource: 0,
     modulateSource: "self",
+    threshold: 0.1,
+    scale: 1,
+    offset: 1,
+    intensity: 0.008,
   },
   setFeedback: (partial) =>
     set((state) => ({ feedback: { ...state.feedback, ...partial } })),

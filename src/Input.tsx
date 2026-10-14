@@ -1,11 +1,9 @@
 import { useShallow } from "zustand/react/shallow";
+
 import { Source } from "./Source";
-import {
-  useSketch,
-  type SketchEffect,
-  type SketchSource,
-} from "./state/sketch";
+
 import "./Input.css";
+import { useSketch } from "./state/sketch";
 
 interface InputProps {
   index: number;
