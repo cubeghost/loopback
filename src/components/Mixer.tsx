@@ -2,8 +2,14 @@ import { useSketch } from "../state/sketch";
 import "./Mixer.css";
 
 export function Mixer() {
-  const { feedback, setFeedback, audioReactive, setAudioReactive } =
-    useSketch();
+  const {
+    feedback,
+    setFeedback,
+    audioReactive,
+    setAudioReactive,
+    mouseReactive,
+    setMouseReactive,
+  } = useSketch();
 
   return (
     <div className="mixer">
@@ -80,6 +86,18 @@ export function Mixer() {
               max={5}
               onChange={(event) =>
                 setAudioReactive({ amount: event.target.value })
+              }
+            />
+          </label>
+        </div>
+        <div>
+          <label className="control">
+            Follow mouse
+            <input
+              type="checkbox"
+              checked={mouseReactive.enabled}
+              onChange={(event) =>
+                setMouseReactive({ enabled: event.target.checked })
               }
             />
           </label>

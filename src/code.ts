@@ -1,9 +1,17 @@
 import type { SketchState } from "./state/sketch";
 
+const notFalse = (line) => line !== false;
+
+const MOUSE_POSITIONS = [
+  "x = () => (-mouse.x/width)+.5",
+  "y = () => (-mouse.y/height)+.5",
+].join("\n");
+
 function generateHydraFeedbackCode(o: string, sketch: SketchState) {
   const {
     feedback: { input, threshold, intensity, scale, offset },
     audioReactive,
+    mouseReactive,
   } = sketch;
 
   const scaleValue = audioReactive.enabled
@@ -12,15 +20,22 @@ function generateHydraFeedbackCode(o: string, sketch: SketchState) {
 
   return [
     `src(${o})`,
-    `    .layer(src(o${input}).luma(${threshold},1e-6))`,
+    `    .layer(`,
+    `        src(o${input})`,
+    `            .luma(${threshold},1e-6)`,
+    mouseReactive.enabled ? `            .scroll(()=>x(),()=>y())` : false,
+    `    )`,
     `    .modulateScale(src(${o}).scale(1 + ${intensity}),${scaleValue},${offset})`,
     `    .out(${o})`,
-  ].join("\n");
+  ]
+    .filter(notFalse)
+    .join("\n");
 }
 
 export function generateHydraCode(sketch: SketchState) {
   const o = "o3";
   const code = [
+    sketch.mouseReactive.enabled ? MOUSE_POSITIONS : false,
     ...Object.values(sketch.inputs).map((input, index) => {
       switch (input.source.type) {
         case "camera":
@@ -57,5 +72,5 @@ export function generateHydraCode(sketch: SketchState) {
     `render(${o})`,
   ];
 
-  return code.filter((line) => line !== false).join("\n");
+  return code.filter(notFalse).join("\n");
 }

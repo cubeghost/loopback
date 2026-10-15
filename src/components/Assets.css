@@ -1,0 +1,13 @@
+:root {
+  interpolate-size: allow-keywords;
+}
+
+.assets::details-content {
+  height: 0;
+  overflow: clip;
+  transition: height .3s ease, content-visibility .3s ease allow-discrete;
+}
+
+.assets[open]::details-content {
+  height: auto;
+}

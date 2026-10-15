@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { VIDEO_ASSETS } from "../constants";
 
 export type SketchSource =
   | {
@@ -45,6 +46,10 @@ export interface SketchAudioReactive {
   amount: string;
 }
 
+export interface SketchMouseReactive {
+  enabled: boolean;
+}
+
 export interface SketchState {
   inputs: Record<number, SketchInput>;
   setInputSource: (index: number, source: Partial<SketchSource>) => void;
@@ -55,6 +60,9 @@ export interface SketchState {
 
   audioReactive: SketchAudioReactive;
   setAudioReactive: (partial: Partial<SketchAudioReactive>) => void;
+
+  mouseReactive: SketchMouseReactive;
+  setMouseReactive: (partial: Partial<SketchMouseReactive>) => void;
 }
 
 export const useSketch = create<SketchState>()((set) => ({
@@ -66,8 +74,7 @@ export const useSketch = create<SketchState>()((set) => ({
     1: {
       source: {
         type: "video",
-        videoUrl:
-          "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDI0cGUxdWY5M2hneDJrdjNleWxoenEwenI2cHYzeDc3bHBmdjFlcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5xtDarpJpIPHFGJrRrG/giphy.mp4",
+        videoUrl: VIDEO_ASSETS[0].videoUrl,
       },
       effect: { enabled: false },
     },
@@ -120,4 +127,10 @@ export const useSketch = create<SketchState>()((set) => ({
   },
   setAudioReactive: (partial) =>
     set((state) => ({ audioReactive: { ...state.audioReactive, ...partial } })),
+
+  mouseReactive: {
+    enabled: true,
+  },
+  setMouseReactive: (partial) =>
+    set((state) => ({ mouseReactive: { ...state.mouseReactive, ...partial } })),
 }));

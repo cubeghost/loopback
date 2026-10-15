@@ -13,9 +13,12 @@ export function HydraCode() {
       <a href={hydraUrl} target="_blank">
         open in hydra
       </a>
-      <code>
-        <pre>{code}</pre>
-      </code>
+      <details>
+        <summary>hydra source code</summary>
+        <code>
+          <pre>{code}</pre>
+        </code>
+      </details>
     </div>
   );
 }

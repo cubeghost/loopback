@@ -10,6 +10,7 @@ import { HYDRA_HEIGHT, HYDRA_WIDTH } from "./constants";
 import { useGlobalState } from "./state/global";
 
 import "./App.css";
+import { Assets } from "./components/Assets";
 
 function App() {
   const setVideoSources = useGlobalState(
@@ -40,6 +41,8 @@ function App() {
       <Hydra />
       <Mixer />
       <HydraCode />
+
+      {/* <Assets /> */}
     </div>
   );
 }
