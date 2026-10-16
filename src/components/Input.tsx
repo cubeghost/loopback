@@ -24,24 +24,28 @@ export function Input({ index }: InputProps) {
   return (
     <>
       <div
-        className="input-panel"
-        style={{ "--grid-area": `input-panel-${index}` }}
+        className={`input-panel input-panel-${index}`}
+        style={{
+          "--grid-area": `input-panel-${index}`,
+          alignItems: index === 0 ? "flex-end" : "flex-start",
+        }}
       >
         <Source
           source={input.source}
           setSource={(source) => setSource(index, source)}
         />
         <Effect
+          index={index}
           effect={input.effect}
           setEffect={(effect) => setEffect(index, effect)}
         />
       </div>
       <div
-        className="input-connect"
+        className={`input-connect input-connect-${index}`}
         style={{ "--grid-area": `input-connect-${index}` }}
       >
         <label>
-          <span className="visually-hidden">Input {index}</span>
+          <span>Input {index}</span>
           <input
             type="radio"
             id={`input-${index}`}

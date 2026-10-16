@@ -16,4 +16,33 @@ export const VIDEO_ASSETS = [
     thumbUrl:
       "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDI0cGUxdWY5M2hneDJrdjNleWxoenEwenI2cHYzeDc3bHBmdjFlcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5xtDarpJpIPHFGJrRrG/200_s.gif",
   },
-];
+] as const;
+
+const effectThumbnails = import.meta.glob("./assets/effects/*.gif", {
+  query: "",
+  import: "default",
+});
+const stillEffectThumbnails = import.meta.glob("./assets/effects/*.gif", {
+  query: "?format=png",
+  import: "default",
+});
+const getThumbnail = async (path: string) => await effectThumbnails[path]();
+const getStillThumbnail = async (path: string) =>
+  await stillEffectThumbnails[path]();
+
+export const EFFECTS = [
+  {
+    id: "1",
+    thumbnail: await getThumbnail("./assets/effects/1.gif"),
+    thumbnailStill: await getStillThumbnail("./assets/effects/1.gif"),
+    code: ".mult(osc(20, -0.1, 1).rotate(Math.PI * 0.5))",
+  },
+  {
+    id: "2",
+    thumbnail: await getThumbnail("./assets/effects/2.gif"),
+    thumbnailStill: await getStillThumbnail("./assets/effects/2.gif"),
+    code: ".modulateKaleid(osc(3,0.5,0),5).modulateRotate(osc(0.75,0.5,0),1,0)",
+  },
+] as const;
+
+export type Effect = (typeof EFFECTS)[number];

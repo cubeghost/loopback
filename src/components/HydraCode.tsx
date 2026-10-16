@@ -1,11 +1,15 @@
 import { useSketch } from "../state/sketch";
 import { generateHydraCode } from "../code";
+import beautify from "js-beautify";
 
 import "./HydraCode.css";
 
 export function HydraCode() {
   const sketch = useSketch();
-  const code = generateHydraCode(sketch);
+  const code = beautify(generateHydraCode(sketch), {
+    indent_size: 2,
+    break_chained_methods: true,
+  });
   const hydraUrl = `https://hydra.ojack.xyz/?code=${btoa(encodeURIComponent(code))}`;
 
   return (
@@ -13,7 +17,7 @@ export function HydraCode() {
       <a href={hydraUrl} target="_blank">
         open in hydra
       </a>
-      <details>
+      <details open>
         <summary>hydra source code</summary>
         <code>
           <pre>{code}</pre>

@@ -1,8 +1,18 @@
+.surface.source {
+  border-image-source: url(../assets/surface-source.png);
+}
+
+.input-panel-1 .surface.source {
+  border-image-source: url(../assets/surface-source-alt.png);
+}
+
 .source {
-  position: relative;
-  background-color: #a3ce27;
+  width: calc(100% - 20px);
+  /* background-color: #a3ce27; */
   margin: 1rem 0;
 }
+
+.source::after {}
 
 .source fieldset {
   border: 0;

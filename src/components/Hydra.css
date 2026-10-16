@@ -1,5 +1,18 @@
 .hydra {
   grid-area: hydra;
+  position: relative;
+}
+
+.hydra:after {
+  content: "";
+  pointer-events: none;
+  inset: -10px;
+  position: absolute;
+  border-image-source: url(../assets/frame.png);
+  border-image-slice: 12 12 12 12 fill;
+  border-image-width: 18px 18px 18px 18px;
+  image-rendering: pixelated;
+  z-index: 1;
 }
 
 .hydra iframe {

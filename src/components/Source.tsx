@@ -29,7 +29,7 @@ export function Source({ source, setSource }: SourceProps) {
   }
 
   return (
-    <div {...getRootProps({ className: "source" })}>
+    <div {...getRootProps({ className: "surface source" })}>
       <fieldset>
         <legend>Source</legend>
         <select value={source.type} onChange={handleTypeChange}>

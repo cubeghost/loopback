@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { VIDEO_ASSETS } from "../constants";
+import { VIDEO_ASSETS, type Effect } from "../constants";
 
 export type SketchSource =
   | {
@@ -25,7 +25,7 @@ const DEFAULT_SOURCE_VALUES: {
 };
 
 export type SketchEffect = {
-  enabled: boolean;
+  id: Effect["id"] | null;
 };
 
 export type SketchInput = {
@@ -39,15 +39,10 @@ export interface SketchFeedback {
   offset: string;
   threshold: string;
   intensity: string;
-}
-
-export interface SketchAudioReactive {
-  enabled: boolean;
-  amount: string;
-}
-
-export interface SketchMouseReactive {
-  enabled: boolean;
+  audioReactive: boolean;
+  audioReactiveAmount: string;
+  mask: boolean;
+  followCursor: boolean;
 }
 
 export interface SketchState {
@@ -57,26 +52,20 @@ export interface SketchState {
 
   feedback: SketchFeedback;
   setFeedback: (partial: Partial<SketchFeedback>) => void;
-
-  audioReactive: SketchAudioReactive;
-  setAudioReactive: (partial: Partial<SketchAudioReactive>) => void;
-
-  mouseReactive: SketchMouseReactive;
-  setMouseReactive: (partial: Partial<SketchMouseReactive>) => void;
 }
 
 export const useSketch = create<SketchState>()((set) => ({
   inputs: {
     0: {
       source: { type: "camera", cameraIndex: 1 },
-      effect: { enabled: false },
+      effect: { id: "1" },
     },
     1: {
       source: {
         type: "video",
         videoUrl: VIDEO_ASSETS[0].videoUrl,
       },
-      effect: { enabled: false },
+      effect: { id: null },
     },
   },
   setInputSource: (index, source) =>
@@ -117,20 +106,11 @@ export const useSketch = create<SketchState>()((set) => ({
     scale: "1",
     offset: "1",
     intensity: "0.008",
+    audioReactive: true,
+    audioReactiveAmount: "1",
+    mask: true,
+    followCursor: false,
   },
   setFeedback: (partial) =>
     set((state) => ({ feedback: { ...state.feedback, ...partial } })),
-
-  audioReactive: {
-    enabled: true,
-    amount: "1",
-  },
-  setAudioReactive: (partial) =>
-    set((state) => ({ audioReactive: { ...state.audioReactive, ...partial } })),
-
-  mouseReactive: {
-    enabled: true,
-  },
-  setMouseReactive: (partial) =>
-    set((state) => ({ mouseReactive: { ...state.mouseReactive, ...partial } })),
 }));

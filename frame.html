@@ -9,29 +9,19 @@
   <script src="https://cdn.jsdelivr.net/npm/hydra-synth/dist/hydra-synth.js"></script>
 </head>
 
-<body style="margin: 0">
+<body style="margin: 0; overflow: hidden;">
   <script>
     const hydra = new Hydra({
       width: window.innerWidth,
       height: window.innerHeight
     });
 
-    // window.addEventListener("DOMContentLoaded", () => {
-    //   window.parent.postMessage({ type: "ready" });
-    // });
-
     const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
     const run = async (code) => {
-      //   const fn = new AsyncFunction("hydra", `
-      //     with(hydra) {
-      //         ${code}
-      //     }
-      // `)
-      // return await fn(hydra);
       try {
         eval(code)
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
     };
 

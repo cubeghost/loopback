@@ -1,3 +1,9 @@
 .input-panel {
   grid-area: var(--grid-area);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
+
+.input-connect {}
