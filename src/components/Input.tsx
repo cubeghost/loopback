@@ -5,12 +5,15 @@ import { Source } from "./Source";
 import "./Input.css";
 import { useSketch } from "../state/sketch";
 import { Effect } from "./Effect";
+import { useSoundEffects } from "../useSoundEffects";
+import type { ChangeEvent } from "react";
 
 interface InputProps {
   index: number;
 }
 
 export function Input({ index }: InputProps) {
+  const [play] = useSoundEffects("click");
   const { input, isActive, setSource, setEffect, setFeedback } = useSketch(
     useShallow((state) => ({
       input: state.inputs[index],
@@ -20,6 +23,11 @@ export function Input({ index }: InputProps) {
       setFeedback: state.setFeedback,
     })),
   );
+
+  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    setFeedback({ input: parseInt(event.target.value) });
+    play();
+  }
 
   return (
     <>
@@ -52,7 +60,7 @@ export function Input({ index }: InputProps) {
             name="mixer-input"
             value={index}
             checked={isActive}
-            onChange={(e) => setFeedback({ input: parseInt(e.target.value) })}
+            onChange={handleInputChange}
           />
         </label>
       </div>

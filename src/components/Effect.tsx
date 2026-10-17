@@ -1,9 +1,9 @@
 import type { ChangeEvent } from "react";
 import { EFFECTS } from "../constants";
 import type { SketchEffect } from "../state/sketch";
+import { useSoundEffects } from "../useSoundEffects";
 
 import "./Effect.css";
-import useSound from "use-sound";
 
 interface EffectProps {
   index: number;
@@ -13,7 +13,7 @@ interface EffectProps {
 
 export function Effect({ index, effect, setEffect }: EffectProps) {
   const group = `effect-${index}`;
-  const [play] = useSound("../assets/click_004.mp3");
+  const [play] = useSoundEffects("click");
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const value = event.target.value === "null" ? null : event.target.value;

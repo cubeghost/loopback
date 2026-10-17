@@ -1,8 +1,21 @@
 import { useSketch } from "../state/sketch";
+import { useSoundEffects } from "../useSoundEffects";
+
 import "./Mixer.css";
 
 export function Mixer() {
   const { feedback, setFeedback } = useSketch();
+  const [playClick] = useSoundEffects("click");
+  const [playScroll, { stop: stopScroll }] = useSoundEffects("scroll", {
+    volume: 0.25,
+    loop: true,
+  });
+
+  const rangeProps = {
+    onPointerDown: () => playScroll(),
+    onPointerUp: () => stopScroll(),
+    onPointerCancel: () => stopScroll(),
+  };
 
   return (
     <div className="mixer">
@@ -17,9 +30,8 @@ export function Mixer() {
               step={0.05}
               min={0}
               max={1}
-              onChange={(event) =>
-                setFeedback({ threshold: event.target.value })
-              }
+              onChange={(event) => setFeedback({ threshold: event.target.value })}
+              {...rangeProps}
             />
           </label>
           <label className="control">
@@ -30,9 +42,8 @@ export function Mixer() {
               step={0.01}
               min={0.01}
               max={0.2}
-              onChange={(event) =>
-                setFeedback({ intensity: event.target.value })
-              }
+              onChange={(event) => setFeedback({ intensity: event.target.value })}
+              {...rangeProps}
             />
           </label>
           <label className="control">
@@ -44,6 +55,7 @@ export function Mixer() {
               min={-2}
               max={2}
               onChange={(event) => setFeedback({ scale: event.target.value })}
+              {...rangeProps}
             />
           </label>
           <label className="control">
@@ -55,6 +67,7 @@ export function Mixer() {
               min={-2}
               max={2}
               onChange={(event) => setFeedback({ offset: event.target.value })}
+              {...rangeProps}
             />
           </label>
         </div>
@@ -64,9 +77,10 @@ export function Mixer() {
             <input
               type="checkbox"
               checked={feedback.audioReactive}
-              onChange={(event) =>
-                setFeedback({ audioReactive: event.target.checked })
-              }
+              onChange={(event) => {
+                setFeedback({ audioReactive: event.target.checked });
+                playClick();
+              }}
             />
           </label>
           <label className="control">
@@ -77,9 +91,8 @@ export function Mixer() {
               step={0.1}
               min={-5}
               max={5}
-              onChange={(event) =>
-                setFeedback({ audioReactiveAmount: event.target.value })
-              }
+              onChange={(event) => setFeedback({ audioReactiveAmount: event.target.value })}
+              {...rangeProps}
             />
           </label>
         </div>
@@ -89,7 +102,10 @@ export function Mixer() {
             <input
               type="checkbox"
               checked={feedback.mask}
-              onChange={(event) => setFeedback({ mask: event.target.checked })}
+              onChange={(event) => {
+                setFeedback({ mask: event.target.checked });
+                playClick();
+              }}
             />
           </label>
           <label className="control">
@@ -97,9 +113,10 @@ export function Mixer() {
             <input
               type="checkbox"
               checked={feedback.followCursor}
-              onChange={(event) =>
-                setFeedback({ followCursor: event.target.checked })
-              }
+              onChange={(event) => {
+                setFeedback({ followCursor: event.target.checked });
+                playClick();
+              }}
             />
           </label>
         </div>

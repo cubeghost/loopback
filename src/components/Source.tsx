@@ -5,6 +5,7 @@ import { type SketchSource } from "../state/sketch";
 
 import "./Source.css";
 import { useGlobalState } from "../state/global";
+import { useSoundEffects } from "../useSoundEffects";
 
 interface SourceProps {
   source: SketchSource;
@@ -12,6 +13,7 @@ interface SourceProps {
 }
 
 export function Source({ source, setSource }: SourceProps) {
+  const [play] = useSoundEffects("click");
   const [file, setFile] = useState<File | null>(null);
   const videoSources = useGlobalState((state) => state.videoSources);
 
@@ -26,6 +28,7 @@ export function Source({ source, setSource }: SourceProps) {
     setSource({
       type,
     });
+    play();
   }
 
   return (
@@ -42,11 +45,12 @@ export function Source({ source, setSource }: SourceProps) {
           <div>
             <select
               value={source.cameraIndex}
-              onChange={(event) =>
+              onChange={(event) => {
                 setSource({
                   cameraIndex: event.target.value,
-                })
-              }
+                });
+                play();
+              }}
             >
               {videoSources.map((videoSource, index) => (
                 <option key={videoSource.deviceId} value={index}>
@@ -64,9 +68,10 @@ export function Source({ source, setSource }: SourceProps) {
                 type="text"
                 name="videoUrl"
                 value={source.videoUrl}
-                onChange={(event) =>
-                  setSource({ videoUrl: event.target.value })
-                }
+                onChange={(event) => {
+                  setSource({ videoUrl: event.target.value });
+                  play();
+                }}
               />
             </label>
           </div>
@@ -80,9 +85,10 @@ export function Source({ source, setSource }: SourceProps) {
                   type="number"
                   name="noiseScale"
                   value={source.noiseScale}
-                  onChange={(event) =>
-                    setSource({ noiseScale: event.target.value })
-                  }
+                  onChange={(event) => {
+                    setSource({ noiseScale: event.target.value });
+                    play();
+                  }}
                 />
               </label>
             </div>

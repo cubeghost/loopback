@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "./Assets.css";
 import { VIDEO_ASSETS } from "../constants";
+import { useSoundEffects } from "../useSoundEffects";
 
 export function Assets() {
   const [isOpen, setOpen] = useState(true);
+  const [play] = useSoundEffects("click");
 
   return (
     <details>
