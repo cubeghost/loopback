@@ -45,13 +45,19 @@ export interface SketchFeedback {
   followCursor: boolean;
 }
 
+export type InputKey = 0 | 1;
 export interface SketchState {
-  inputs: Record<number, SketchInput>;
-  setInputSource: (index: number, source: Partial<SketchSource>) => void;
-  setInputEffect: (index: number, effect: Partial<SketchEffect>) => void;
+  inputs: {
+    [K in InputKey]: SketchInput;
+  };
+  setInputSource: (index: InputKey, source: Partial<SketchSource>) => void;
+  setInputEffect: (index: InputKey, effect: Partial<SketchEffect>) => void;
 
   feedback: SketchFeedback;
   setFeedback: (partial: Partial<SketchFeedback>) => void;
+
+  blend: string;
+  setBlend: (blend: string) => void;
 }
 
 export const useSketch = create<SketchState>()((set) => ({
@@ -113,4 +119,7 @@ export const useSketch = create<SketchState>()((set) => ({
   },
   setFeedback: (partial) =>
     set((state) => ({ feedback: { ...state.feedback, ...partial } })),
+
+  blend: "0",
+  setBlend: (blend) => set({ blend }),
 }));

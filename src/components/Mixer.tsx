@@ -4,7 +4,7 @@ import { useSoundEffects } from "../useSoundEffects";
 import "./Mixer.css";
 
 export function Mixer() {
-  const { feedback, setFeedback } = useSketch();
+  const { feedback, blend, setFeedback, setBlend } = useSketch();
   const [playClick] = useSoundEffects("click");
   const [playScroll, { stop: stopScroll }] = useSoundEffects("scroll", {
     volume: 0.25,
@@ -120,6 +120,22 @@ export function Mixer() {
             />
           </label>
         </div>
+      </fieldset>
+      <fieldset>
+        <legend>Blend</legend>
+        <label className="control">
+          <span>Input 0</span>
+          <input
+            type="range"
+            value={blend}
+            step={0.1}
+            min={0}
+            max={1}
+            onChange={(event) => setBlend(event.target.value)}
+            {...rangeProps}
+          />
+        </label>
+        <span>Input 1</span>
       </fieldset>
     </div>
   );

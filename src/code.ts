@@ -37,7 +37,7 @@ function generateHydraFeedbackCode(
   return [
     `src(${o})`,
     `  .layer(`,
-    `    src(o${input})`,
+    `    src(o2)`,
     maskTransform,
     `      .luma(${threshold},1e-6)`,
     followCursor ? `.scroll(()=>x(),()=>y())` : false,
@@ -83,6 +83,7 @@ export function generateHydraCode(sketch: SketchState) {
       source += `.scale(0.5).out(o${index})`;
       return source;
     }),
+    `src(o0).blend(o1,${sketch.blend}).out(o2)`,
     "",
     generateHydraFeedbackCode(o, sketch.feedback),
     "",

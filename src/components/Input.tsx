@@ -1,15 +1,15 @@
+import type { ChangeEvent } from "react";
 import { useShallow } from "zustand/react/shallow";
 
+import { useSketch, type InputKey } from "../state/sketch";
+import { useSoundEffects } from "../useSoundEffects";
+import { Effect } from "./Effect";
 import { Source } from "./Source";
 
 import "./Input.css";
-import { useSketch } from "../state/sketch";
-import { Effect } from "./Effect";
-import { useSoundEffects } from "../useSoundEffects";
-import type { ChangeEvent } from "react";
 
 interface InputProps {
-  index: number;
+  index: InputKey;
 }
 
 export function Input({ index }: InputProps) {
@@ -38,17 +38,14 @@ export function Input({ index }: InputProps) {
           alignItems: index === 0 ? "flex-end" : "flex-start",
         }}
       >
-        <Source
-          source={input.source}
-          setSource={(source) => setSource(index, source)}
-        />
+        <Source source={input.source} setSource={(source) => setSource(index, source)} />
         <Effect
           index={index}
           effect={input.effect}
           setEffect={(effect) => setEffect(index, effect)}
         />
       </div>
-      <div
+      {/* <div
         className={`input-connect input-connect-${index}`}
         style={{ "--grid-area": `input-connect-${index}` }}
       >
@@ -63,7 +60,7 @@ export function Input({ index }: InputProps) {
             onChange={handleInputChange}
           />
         </label>
-      </div>
+      </div> */}
     </>
   );
 }
