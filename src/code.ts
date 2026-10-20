@@ -15,7 +15,6 @@ function generateHydraFeedbackCode(
   feedback: SketchState["feedback"],
 ) {
   const {
-    input,
     threshold,
     intensity,
     scale,

@@ -18,14 +18,17 @@ export const VIDEO_ASSETS = [
   },
 ] as const;
 
-const effectThumbnails = import.meta.glob("./assets/effects/*.gif", {
+const effectThumbnails = import.meta.glob<string>("./assets/effects/*.gif", {
   query: "",
   import: "default",
 });
-const stillEffectThumbnails = import.meta.glob("./assets/effects/*.gif", {
-  query: "?format=png",
-  import: "default",
-});
+const stillEffectThumbnails = import.meta.glob<string>(
+  "./assets/effects/*.gif",
+  {
+    query: "?format=png",
+    import: "default",
+  },
+);
 const getThumbnail = async (path: string) => await effectThumbnails[path]();
 const getStillThumbnail = async (path: string) =>
   await stillEffectThumbnails[path]();

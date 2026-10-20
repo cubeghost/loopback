@@ -1,8 +1,8 @@
 import type { ChangeEvent } from "react";
 import { useShallow } from "zustand/react/shallow";
 
+import { useSoundEffects } from "../hooks/useSoundEffects";
 import { useSketch, type InputKey } from "../state/sketch";
-import { useSoundEffects } from "../useSoundEffects";
 import { Effect } from "./Effect";
 import { Source } from "./Source";
 
@@ -13,30 +13,29 @@ interface InputProps {
 }
 
 export function Input({ index }: InputProps) {
-  const [play] = useSoundEffects("click");
-  const { input, isActive, setSource, setEffect, setFeedback } = useSketch(
-    useShallow((state) => ({
-      input: state.inputs[index],
-      setSource: state.setInputSource,
-      setEffect: state.setInputEffect,
-      isActive: state.feedback.input === index,
-      setFeedback: state.setFeedback,
-    })),
+  const { input, setSource, setEffect, isActive } = useSketch(
+    useShallow((state) => {
+      const blend = parseFloat(state.blend);
+      return {
+        input: state.inputs[index],
+        setSource: state.setInputSource,
+        setEffect: state.setInputEffect,
+        isActive: Number.isInteger(blend) === false || blend === index,
+        setFeedback: state.setFeedback,
+      };
+    }),
   );
-
-  function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
-    setFeedback({ input: parseInt(event.target.value) });
-    play();
-  }
 
   return (
     <>
       <div
         className={`input-panel input-panel-${index}`}
-        style={{
-          "--grid-area": `input-panel-${index}`,
-          alignItems: index === 0 ? "flex-end" : "flex-start",
-        }}
+        style={
+          {
+            "--grid-area": `input-panel-${index}`,
+            alignItems: index === 0 ? "flex-end" : "flex-start",
+          } as React.CSSProperties
+        }
       >
         <Source source={input.source} setSource={(source) => setSource(index, source)} />
         <Effect
@@ -45,22 +44,6 @@ export function Input({ index }: InputProps) {
           setEffect={(effect) => setEffect(index, effect)}
         />
       </div>
-      {/* <div
-        className={`input-connect input-connect-${index}`}
-        style={{ "--grid-area": `input-connect-${index}` }}
-      >
-        <label>
-          <span>Input {index}</span>
-          <input
-            type="radio"
-            id={`input-${index}`}
-            name="mixer-input"
-            value={index}
-            checked={isActive}
-            onChange={handleInputChange}
-          />
-        </label>
-      </div> */}
     </>
   );
 }

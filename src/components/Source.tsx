@@ -1,11 +1,11 @@
 import { useState, type ChangeEvent } from "react";
 import { useDropzone } from "react-dropzone";
 
+import { useSoundEffects } from "../hooks/useSoundEffects";
+import { useGlobalState } from "../state/global";
 import { type SketchSource } from "../state/sketch";
 
 import "./Source.css";
-import { useGlobalState } from "../state/global";
-import { useSoundEffects } from "../useSoundEffects";
 
 interface SourceProps {
   source: SketchSource;
@@ -13,7 +13,7 @@ interface SourceProps {
 }
 
 export function Source({ source, setSource }: SourceProps) {
-  const [play] = useSoundEffects("click");
+  const [play] = useSoundEffects("click_subtle");
   const [file, setFile] = useState<File | null>(null);
   const videoSources = useGlobalState((state) => state.videoSources);
 
@@ -70,7 +70,7 @@ export function Source({ source, setSource }: SourceProps) {
                 value={source.videoUrl}
                 onChange={(event) => {
                   setSource({ videoUrl: event.target.value });
-                  play();
+                  // play();
                 }}
               />
             </label>
@@ -97,9 +97,7 @@ export function Source({ source, setSource }: SourceProps) {
         {file ? <span>file.name</span> : null}
         {/* <input {...getInputProps()} /> */}
       </fieldset>
-      {isDragGlobal && (
-        <div className="source-drag-overlay">Drop to upload</div>
-      )}
+      {isDragGlobal && <div className="source-drag-overlay">Drop to upload</div>}
     </div>
   );
 }

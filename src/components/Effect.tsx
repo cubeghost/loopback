@@ -1,7 +1,8 @@
 import type { ChangeEvent } from "react";
+
 import { EFFECTS } from "../constants";
+import { useSoundEffects } from "../hooks/useSoundEffects";
 import type { SketchEffect } from "../state/sketch";
-import { useSoundEffects } from "../useSoundEffects";
 
 import "./Effect.css";
 
@@ -13,7 +14,7 @@ interface EffectProps {
 
 export function Effect({ index, effect, setEffect }: EffectProps) {
   const group = `effect-${index}`;
-  const [play] = useSoundEffects("click");
+  const [play] = useSoundEffects("click_juicy");
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const value = event.target.value === "null" ? null : event.target.value;
@@ -44,11 +45,7 @@ export function Effect({ index, effect, setEffect }: EffectProps) {
             <label key={eff.id} className="effect-option">
               <div className="thumbnail">
                 <img src={eff.thumbnail} className="thumbnail-gif" alt="TODO" />
-                <img
-                  src={eff.thumbnailStill}
-                  className="thumbnail-still"
-                  alt="TODO"
-                />
+                <img src={eff.thumbnailStill} className="thumbnail-still" alt="TODO" />
               </div>
               <input
                 type="radio"

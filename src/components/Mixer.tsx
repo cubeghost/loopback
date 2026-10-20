@@ -1,14 +1,17 @@
+import { useSoundEffects } from "../hooks/useSoundEffects";
 import { useSketch } from "../state/sketch";
-import { useSoundEffects } from "../useSoundEffects";
 
 import "./Mixer.css";
 
 export function Mixer() {
   const { feedback, blend, setFeedback, setBlend } = useSketch();
-  const [playClick] = useSoundEffects("click");
+  const [playClickSubtle] = useSoundEffects("click_subtle");
   const [playScroll, { stop: stopScroll }] = useSoundEffects("scroll", {
     volume: 0.25,
     loop: true,
+  });
+  const [playClickJuicy] = useSoundEffects("click_juicy", {
+    volume: 0.25,
   });
 
   const rangeProps = {
@@ -79,7 +82,7 @@ export function Mixer() {
               checked={feedback.audioReactive}
               onChange={(event) => {
                 setFeedback({ audioReactive: event.target.checked });
-                playClick();
+                playClickSubtle();
               }}
             />
           </label>
@@ -104,7 +107,7 @@ export function Mixer() {
               checked={feedback.mask}
               onChange={(event) => {
                 setFeedback({ mask: event.target.checked });
-                playClick();
+                playClickSubtle();
               }}
             />
           </label>
@@ -115,7 +118,7 @@ export function Mixer() {
               checked={feedback.followCursor}
               onChange={(event) => {
                 setFeedback({ followCursor: event.target.checked });
-                playClick();
+                playClickSubtle();
               }}
             />
           </label>
@@ -131,8 +134,11 @@ export function Mixer() {
             step={0.1}
             min={0}
             max={1}
-            onChange={(event) => setBlend(event.target.value)}
-            {...rangeProps}
+            onChange={(event) => {
+              setBlend(event.target.value);
+              playClickJuicy();
+            }}
+            // {...rangeProps}
           />
         </label>
         <span>Input 1</span>
