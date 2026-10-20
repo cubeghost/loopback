@@ -62,7 +62,10 @@ export interface SketchState {
 export const useSketch = create<SketchState>()((set) => ({
   inputs: {
     0: {
-      source: { type: "camera", cameraIndex: 1 },
+      source: {
+        type: "video",
+        videoUrl: VIDEO_ASSETS.find((v) => v.id === "kermit")!.videoUrl,
+      },
       effect: { id: "1" },
     },
     1: {
@@ -110,9 +113,9 @@ export const useSketch = create<SketchState>()((set) => ({
     scale: "1",
     offset: "1",
     intensity: "0.008",
-    audioReactive: true,
+    audioReactive: false,
     audioReactiveAmount: "1",
-    mask: true,
+    mask: false,
     followCursor: false,
   },
   setFeedback: (partial) =>

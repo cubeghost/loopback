@@ -16,6 +16,13 @@ export const VIDEO_ASSETS = [
     thumbUrl:
       "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDI0cGUxdWY5M2hneDJrdjNleWxoenEwenI2cHYzeDc3bHBmdjFlcyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/5xtDarpJpIPHFGJrRrG/200_s.gif",
   },
+  {
+    id: "kermit",
+    videoUrl:
+      "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmc0NzFsbXcyOWJmeDVkeWNpamhqMTdsNGliN2l1MjFkdW45ZnpqaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LmBsnpDCuturMhtLfw/giphy.mp4",
+    thumbUrl:
+      "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmc0NzFsbXcyOWJmeDVkeWNpamhqMTdsNGliN2l1MjFkdW45ZnpqaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LmBsnpDCuturMhtLfw/200_s.gif",
+  },
 ] as const;
 
 const effectThumbnails = import.meta.glob<string>("./assets/effects/*.gif", {

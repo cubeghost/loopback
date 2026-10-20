@@ -1,0 +1,13 @@
+.mixer {
+  grid-area: mixer;
+  background-color: #2f484e;
+  padding: 0 2rem;
+}
+
+.mixer .control input[type=range] {
+  flex: 1;
+}
+
+.mixer .control {
+  display: flex;
+}

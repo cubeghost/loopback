@@ -1,8 +1,9 @@
+import { useMediaDevices } from "@reactuses/core";
 import { useState, type ChangeEvent } from "react";
 import { useDropzone } from "react-dropzone";
 
 import { useSoundEffects } from "../hooks/useSoundEffects";
-import { useGlobalState } from "../state/global";
+import { useVideoDevices } from "../hooks/useVideoDevices";
 import { type SketchSource } from "../state/sketch";
 
 import "./Source.css";
@@ -15,7 +16,7 @@ interface SourceProps {
 export function Source({ source, setSource }: SourceProps) {
   const [play] = useSoundEffects("click_subtle");
   const [file, setFile] = useState<File | null>(null);
-  const videoSources = useGlobalState((state) => state.videoSources);
+  const devices = useVideoDevices();
 
   const { getRootProps, getInputProps, isDragGlobal } = useDropzone({
     onDrop: (acceptedFiles) => {
@@ -52,9 +53,9 @@ export function Source({ source, setSource }: SourceProps) {
                 play();
               }}
             >
-              {videoSources.map((videoSource, index) => (
-                <option key={videoSource.deviceId} value={index}>
-                  {videoSource.label ?? index}
+              {devices.map((device, index) => (
+                <option key={device.deviceId} value={index}>
+                  {device.label ?? index}
                 </option>
               ))}
             </select>

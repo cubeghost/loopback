@@ -3,9 +3,10 @@
   margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr var(--hydra-width) 1fr;
-  grid-template-rows: var(--hydra-height) min-content 1fr;
-  grid-template-areas: "input-panel-0 hydra input-panel-1"
-    "input-connect-0 mixer input-connect-1"
+  grid-template-rows: min-content var(--hydra-height) min-content 1fr;
+  grid-template-areas: ". mixer ."
+    "input-panel-0 hydra input-panel-1"
+    "input-connect-0 feedback input-connect-1"
     ". code .";
   gap: 1rem;
 }

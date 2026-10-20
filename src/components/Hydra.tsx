@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
-import { useSketch } from "../state/sketch";
-import "./Hydra.css";
-import { HYDRA_HEIGHT, HYDRA_WIDTH } from "../constants";
+
 import { generateHydraCode } from "../code";
+import { HYDRA_HEIGHT, HYDRA_WIDTH } from "../constants";
+import { useSketch } from "../state/sketch";
+
+import "./Hydra.css";
 
 const width = HYDRA_WIDTH;
 const height = HYDRA_HEIGHT;

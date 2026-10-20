@@ -1,17 +1,14 @@
-import { useSoundEffects } from "../hooks/useSoundEffects";
-import { useSketch } from "../state/sketch";
+import { useSoundEffects } from "../../hooks/useSoundEffects";
+import { useSketch } from "../../state/sketch";
 
-import "./Mixer.css";
+import "./Feedback.css";
 
-export function Mixer() {
-  const { feedback, blend, setFeedback, setBlend } = useSketch();
-  const [playClickSubtle] = useSoundEffects("click_subtle");
+export function Feedback() {
+  const { feedback, setFeedback } = useSketch();
+  const [playClick] = useSoundEffects("click_subtle");
   const [playScroll, { stop: stopScroll }] = useSoundEffects("scroll", {
     volume: 0.25,
     loop: true,
-  });
-  const [playClickJuicy] = useSoundEffects("click_juicy", {
-    volume: 0.25,
   });
 
   const rangeProps = {
@@ -21,7 +18,7 @@ export function Mixer() {
   };
 
   return (
-    <div className="mixer">
+    <div className="feedback">
       <fieldset>
         <legend>Feedback</legend>
         <div>
@@ -82,7 +79,7 @@ export function Mixer() {
               checked={feedback.audioReactive}
               onChange={(event) => {
                 setFeedback({ audioReactive: event.target.checked });
-                playClickSubtle();
+                playClick();
               }}
             />
           </label>
@@ -107,7 +104,7 @@ export function Mixer() {
               checked={feedback.mask}
               onChange={(event) => {
                 setFeedback({ mask: event.target.checked });
-                playClickSubtle();
+                playClick();
               }}
             />
           </label>
@@ -118,30 +115,11 @@ export function Mixer() {
               checked={feedback.followCursor}
               onChange={(event) => {
                 setFeedback({ followCursor: event.target.checked });
-                playClickSubtle();
+                playClick();
               }}
             />
           </label>
         </div>
-      </fieldset>
-      <fieldset>
-        <legend>Blend</legend>
-        <label className="control">
-          <span>Input 0</span>
-          <input
-            type="range"
-            value={blend}
-            step={0.1}
-            min={0}
-            max={1}
-            onChange={(event) => {
-              setBlend(event.target.value);
-              playClickJuicy();
-            }}
-            // {...rangeProps}
-          />
-        </label>
-        <span>Input 1</span>
       </fieldset>
     </div>
   );
