@@ -3,19 +3,30 @@ import { useSketch } from "../../state/sketch";
 
 import "./Feedback.css";
 
+function normalizeRangeValue(event: React.ChangeEvent<HTMLInputElement>) {
+  const min = parseFloat(event.target.min);
+  const max = parseFloat(event.target.max);
+  const value = parseFloat(event.target.value);
+  return (value - min) / (max - min);
+}
+
+function rangePlaybackRate(event: React.ChangeEvent<HTMLInputElement>) {
+  return 0.4 + normalizeRangeValue(event) * 0.5;
+}
+
 export function Feedback() {
   const { feedback, setFeedback } = useSketch();
   const [playClick] = useSoundEffects("click_subtle");
-  const [playScroll, { stop: stopScroll }] = useSoundEffects("scroll", {
-    volume: 0.25,
-    loop: true,
+  const [playScroll /*, { stop: stopScroll }*/] = useSoundEffects("scroll", {
+    volume: 0.15,
+    // loop: true,
   });
 
-  const rangeProps = {
-    onPointerDown: () => playScroll(),
-    onPointerUp: () => stopScroll(),
-    onPointerCancel: () => stopScroll(),
-  };
+  // const rangeProps = {
+  //   onPointerDown: () => playScroll(),
+  //   onPointerUp: () => stopScroll(),
+  //   onPointerCancel: () => stopScroll(),
+  // };
 
   return (
     <div className="feedback">
@@ -30,8 +41,13 @@ export function Feedback() {
               step={0.05}
               min={0}
               max={1}
-              onChange={(event) => setFeedback({ threshold: event.target.value })}
-              {...rangeProps}
+              onChange={(event) => {
+                setFeedback({ threshold: event.target.value });
+                playScroll({
+                  playbackRate: rangePlaybackRate(event),
+                });
+              }}
+              // {...rangeProps}
             />
           </label>
           <label className="control">
@@ -42,8 +58,11 @@ export function Feedback() {
               step={0.01}
               min={0.01}
               max={0.2}
-              onChange={(event) => setFeedback({ intensity: event.target.value })}
-              {...rangeProps}
+              onChange={(event) => {
+                setFeedback({ intensity: event.target.value });
+                playScroll();
+              }}
+              // {...rangeProps}
             />
           </label>
           <label className="control">
@@ -54,8 +73,11 @@ export function Feedback() {
               step={0.05}
               min={-2}
               max={2}
-              onChange={(event) => setFeedback({ scale: event.target.value })}
-              {...rangeProps}
+              onChange={(event) => {
+                setFeedback({ scale: event.target.value });
+                playScroll();
+              }}
+              // {...rangeProps}
             />
           </label>
           <label className="control">
@@ -66,8 +88,11 @@ export function Feedback() {
               step={0.25}
               min={-2}
               max={2}
-              onChange={(event) => setFeedback({ offset: event.target.value })}
-              {...rangeProps}
+              onChange={(event) => {
+                setFeedback({ offset: event.target.value });
+                playScroll();
+              }}
+              // {...rangeProps}
             />
           </label>
         </div>
@@ -91,8 +116,11 @@ export function Feedback() {
               step={0.1}
               min={-5}
               max={5}
-              onChange={(event) => setFeedback({ audioReactiveAmount: event.target.value })}
-              {...rangeProps}
+              onChange={(event) => {
+                setFeedback({ audioReactiveAmount: event.target.value });
+                playScroll();
+              }}
+              // {...rangeProps}
             />
           </label>
         </div>

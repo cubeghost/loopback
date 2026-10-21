@@ -1,5 +1,5 @@
 .surface.effect {
-  border-image-source: url(../assets/surface-effect.png);
+  border-image-source: url(../../assets/surface-effect.png);
   align-self: stretch;
   --highlight: #dac015;
   --foreground: #312f24;
@@ -7,7 +7,7 @@
 }
 
 .input-panel-1 .surface.effect {
-  border-image-source: url(../assets/surface-effect-alt.png);
+  border-image-source: url(../../assets/surface-effect-alt.png);
   --highlight: #4f55e9;
   --foreground: #252433;
 }
@@ -68,6 +68,6 @@
 
 .effect-option .thumbnail-none {
   background-color: var(--foreground);
-  mask: url(../assets/effects/none.png);
+  mask: url(../../assets/effects/none.png);
   opacity: 0.7;
 }

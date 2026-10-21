@@ -9,17 +9,28 @@
 </head>
 
 <body style="margin: 0; overflow: hidden;">
+  <canvas id="hydra"></canvas>
   <script>
-    const hydra = new Hydra({
+    const canvas = document.getElementById("hydra");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const hydraArgs = {
       width: window.innerWidth,
       height: window.innerHeight,
+      canvas
+    };
+
+    let source;
+    let hydra = new Hydra({
+      ...hydraArgs,
       detectAudio: false
     });
 
     const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
     const run = async (code) => {
+      source = code;
       try {
-        eval(code)
+        hydra.eval(source)
       } catch (err) {
         console.log(err);
       }
@@ -27,6 +38,14 @@
 
     window.addEventListener("message", (event) => {
       if (event.data.type === "hydra") {
+        if (event.data.detectAudio !== hydra.detectAudio) {
+          hydra.hush();
+          hydra = new Hydra({
+            ...hydraArgs,
+            detectAudio: event.data.detectAudio
+          });
+        }
+
         run(event.data.code);
       }
     });

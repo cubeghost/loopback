@@ -1,19 +1,18 @@
-import { useMediaDevices } from "@reactuses/core";
 import { useState, type ChangeEvent } from "react";
 import { useDropzone } from "react-dropzone";
 
-import { useSoundEffects } from "../hooks/useSoundEffects";
-import { useVideoDevices } from "../hooks/useVideoDevices";
-import { type SketchSource } from "../state/sketch";
+import { useSoundEffects } from "../../hooks/useSoundEffects";
+import { useVideoDevices } from "../../hooks/useVideoDevices";
+import { type SketchSource } from "../../state/sketch";
 
-import "./Source.css";
+import "./InputSource.css";
 
 interface SourceProps {
   source: SketchSource;
   setSource: (source: Partial<SketchSource>) => void;
 }
 
-export function Source({ source, setSource }: SourceProps) {
+export function InputSource({ source, setSource }: SourceProps) {
   const [play] = useSoundEffects("click_subtle");
   const [file, setFile] = useState<File | null>(null);
   const devices = useVideoDevices();

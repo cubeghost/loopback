@@ -1,6 +1,7 @@
-import { useSketch } from "../state/sketch";
-import { generateHydraCode } from "../code";
 import beautify from "js-beautify";
+
+import { generateHydraCode } from "../../code";
+import { useSketch } from "../../state/sketch";
 
 import "./HydraCode.css";
 

@@ -6,7 +6,7 @@ const SOUNDS = {
   click_juicy: "/827133__cat-fox_alex__click-2.mp3",
   /* "click_002" & "scroll_004" (https://kenney.nl/assets/interface-sounds) by Kenney, licensed under CC0 */
   click_subtle: "/click_002.mp3",
-  scroll: "/scroll_004.mp3",
+  scroll: "/scroll_005_clip.mp3",
 };
 
 type Sound = keyof typeof SOUNDS;

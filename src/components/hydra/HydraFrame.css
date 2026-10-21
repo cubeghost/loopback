@@ -1,5 +1,5 @@
 .hydra {
-  grid-area: hydra;
+  grid-area: frame;
   position: relative;
 }
 
@@ -8,7 +8,7 @@
   pointer-events: none;
   inset: -10px;
   position: absolute;
-  border-image-source: url(../assets/frame.png);
+  border-image-source: url(../../assets/frame.png);
   border-image-slice: 12 12 12 12 fill;
   border-image-width: 18px 18px 18px 18px;
   image-rendering: pixelated;

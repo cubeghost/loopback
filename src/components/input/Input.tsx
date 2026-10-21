@@ -1,10 +1,8 @@
-import type { ChangeEvent } from "react";
 import { useShallow } from "zustand/react/shallow";
 
-import { useSoundEffects } from "../hooks/useSoundEffects";
-import { useSketch, type InputKey } from "../state/sketch";
-import { Effect } from "./Effect";
-import { Source } from "./Source";
+import { useSketch, type InputKey } from "../../state/sketch";
+import { InputEffect } from "./InputEffect";
+import { InputSource } from "./InputSource";
 
 import "./Input.css";
 
@@ -37,8 +35,8 @@ export function Input({ index }: InputProps) {
           } as React.CSSProperties
         }
       >
-        <Source source={input.source} setSource={(source) => setSource(index, source)} />
-        <Effect
+        <InputSource source={input.source} setSource={(source) => setSource(index, source)} />
+        <InputEffect
           index={index}
           effect={input.effect}
           setEffect={(effect) => setEffect(index, effect)}

@@ -23,6 +23,11 @@ export const VIDEO_ASSETS = [
     thumbUrl:
       "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmc0NzFsbXcyOWJmeDVkeWNpamhqMTdsNGliN2l1MjFkdW45ZnpqaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LmBsnpDCuturMhtLfw/200_s.gif",
   },
+  {
+    id: "wiki",
+    videoUrl:
+      "https://upload.wikimedia.org/wikipedia/commons/7/73/Bontempi_Junior.webm",
+  },
 ] as const;
 
 const effectThumbnails = import.meta.glob<string>("./assets/effects/*.gif", {

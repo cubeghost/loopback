@@ -1,10 +1,10 @@
 import type { ChangeEvent } from "react";
 
-import { EFFECTS } from "../constants";
-import { useSoundEffects } from "../hooks/useSoundEffects";
-import type { SketchEffect } from "../state/sketch";
+import { EFFECTS } from "../../constants";
+import { useSoundEffects } from "../../hooks/useSoundEffects";
+import type { SketchEffect } from "../../state/sketch";
 
-import "./Effect.css";
+import "./InputEffect.css";
 
 interface EffectProps {
   index: number;
@@ -12,7 +12,7 @@ interface EffectProps {
   setEffect: (effect: Partial<SketchEffect>) => void;
 }
 
-export function Effect({ index, effect, setEffect }: EffectProps) {
+export function InputEffect({ index, effect, setEffect }: EffectProps) {
   const group = `effect-${index}`;
   const [play] = useSoundEffects("click_juicy");
 

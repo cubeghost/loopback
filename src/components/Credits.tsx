@@ -36,7 +36,7 @@ export function Credits() {
         </p>
         <p>
           <a href="https://kenney.nl/assets/interface-sounds" target="_blank" rel="noopener">
-            "click_002" & "scroll_004"
+            "click_002" & "scroll_005" (modified)
           </a>{" "}
           by Kenney licensed under{" "}
           <a

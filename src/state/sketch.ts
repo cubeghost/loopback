@@ -64,7 +64,7 @@ export const useSketch = create<SketchState>()((set) => ({
     0: {
       source: {
         type: "video",
-        videoUrl: VIDEO_ASSETS.find((v) => v.id === "kermit")!.videoUrl,
+        videoUrl: VIDEO_ASSETS.find((v) => v.id === "wiki")!.videoUrl,
       },
       effect: { id: "1" },
     },

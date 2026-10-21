@@ -1,9 +1,9 @@
 .surface.source {
-  border-image-source: url(../assets/surface-source.png);
+  border-image-source: url(../../assets/surface-source.png);
 }
 
 .input-panel-1 .surface.source {
-  border-image-source: url(../assets/surface-source-alt.png);
+  border-image-source: url(../../assets/surface-source-alt.png);
 }
 
 .source {
