@@ -2,6 +2,7 @@
   grid-area: mixer;
   background-color: #2f484e;
   padding: 0 2rem;
+  margin-bottom: 54px;
 }
 
 .mixer .control input[type=range] {

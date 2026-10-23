@@ -1,18 +1,46 @@
 .hydra {
   grid-area: frame;
   position: relative;
+  overflow: visible;
 }
 
-.hydra:after {
-  content: "";
+.hydra-frame {
   pointer-events: none;
-  inset: -10px;
+  /* height: 550px;
+  width: 534px; */
   position: absolute;
-  border-image-source: url(../../assets/frame.png);
+  inset: -54px -150px -54px -160px;
+  /* left: 50%;
+  top: -30px; */
+  /* transform: translateX(-50%); */
+  /* border-image-source: url(../../assets/frame.png);
   border-image-slice: 12 12 12 12 fill;
-  border-image-width: 18px 18px 18px 18px;
+  border-image-width: 18px 18px 18px 18px; */
+  border-image-source: url(../../assets/blob_frame_2.gif);
+  border-image-slice: 29 87 29 90;
+  border-image-width: 58px 178px 58px 182px;
+  /* background-image: url(../../assets/blob_frame_center.gif);
+  background-size: 100%; */
   image-rendering: pixelated;
   z-index: 1;
+}
+
+.hydra-frame:before,
+.hydra-frame:after {
+  /* content: ""; */
+  height: 550px;
+  position: absolute;
+  background-size: 100%;
+}
+
+.hydra-frame:before {
+  background-image: url(../../assets/blob_frame_left.gif);
+  width: 182px;
+}
+
+.hydra-frame:after {
+  background-image: url(../../assets/blob_frame_right.gif);
+  width: 178px;
 }
 
 .hydra iframe {

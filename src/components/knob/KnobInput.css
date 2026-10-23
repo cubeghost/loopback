@@ -1,0 +1,71 @@
+.knob-container {
+  --knob-size: 4rem;
+
+  width: var(--knob-size);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .knob-container:focus-within {
+  outline: 3px solid red;
+} */
+
+.knob-input {
+  position: relative;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+  outline: none;
+  box-sizing: content-box;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+.knob-thumb {
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.knob-input:focus .knob-thumb {
+  /* border: 3px solid #000; */
+}
+
+/* .knob-thumb:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(0deg, #000, #999);
+  mix-blend-mode: lighten;
+} */
+
+.knob-thumb-inner {
+  /* background-image: linear-gradient(calc(360deg - var(--angle)), #000, #111); */
+  background-color: #000;
+  transform: rotate(var(--angle));
+  --s: calc(var(--knob-size) * 1.2);
+  width: var(--s);
+  aspect-ratio: 1;
+  --g: /calc(var(--s)*0.274) calc(var(--s)*0.274) radial-gradient(50% 50%, #000 99%, #0000 101%) no-repeat;
+  mask: calc(50% + var(--s)*0.286) calc(50% + var(--s)*0.161) var(--g), calc(50% + var(--s)*0.003) calc(50% + var(--s)*0.328) var(--g), calc(50% + var(--s)*-0.282) calc(50% + var(--s)*0.167) var(--g), calc(50% + var(--s)*-0.286) calc(50% + var(--s)*-0.161) var(--g), calc(50% + var(--s)*-0.003) calc(50% + var(--s)*-0.328) var(--g), calc(50% + var(--s)*0.282) calc(50% + var(--s)*-0.167) var(--g), radial-gradient(calc(var(--s)*0.402), #000 99%, #0000 101%) subtract, calc(50% + var(--s)*0.256) calc(50% + var(--s)*0.433) var(--g), calc(50% + var(--s)*-0.247) calc(50% + var(--s)*0.439) var(--g), calc(50% + var(--s)*-0.504) calc(50% + var(--s)*0.005) var(--g), calc(50% + var(--s)*-0.256) calc(50% + var(--s)*-0.433) var(--g), calc(50% + var(--s)*0.247) calc(50% + var(--s)*-0.439) var(--g), calc(50% + var(--s)*0.504) calc(50% + var(--s)*-0.005) var(--g);
+}
+
+.knob-thumb,
+.knob-thumb-inner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.knob-thumb-indicator {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: calc(var(--knob-size) / 3);
+  width: 2px;
+  transform: translateX(-50%);
+  background-color: #fff;
+}

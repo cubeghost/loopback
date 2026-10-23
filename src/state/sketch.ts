@@ -34,12 +34,12 @@ export type SketchInput = {
 };
 
 export interface SketchFeedback {
-  scale: string;
-  offset: string;
-  threshold: string;
-  intensity: string;
+  scale: number;
+  offset: number;
+  threshold: number;
+  intensity: number;
   audioReactive: boolean;
-  audioReactiveAmount: string;
+  audioReactiveAmount: number;
   mask: boolean;
   followCursor: boolean;
 }
@@ -109,12 +109,12 @@ export const useSketch = create<SketchState>()((set) => ({
     })),
 
   feedback: {
-    threshold: "0.1",
-    scale: "1",
-    offset: "1",
-    intensity: "0.008",
+    threshold: 0.1,
+    scale: 1,
+    offset: 1,
+    intensity: 0.01,
     audioReactive: false,
-    audioReactiveAmount: "1",
+    audioReactiveAmount: 1,
     mask: false,
     followCursor: false,
   },

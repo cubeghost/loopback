@@ -46,6 +46,7 @@ export function Hydra({ enableAudio }: HydraProps) {
 
   return (
     <div className="hydra">
+      <div className="hydra-frame" />
       <iframe
         src={`${window.location.origin}/frame.html`}
         sandbox="allow-scripts allow-same-origin"

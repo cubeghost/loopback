@@ -7,7 +7,9 @@ import { imagetools } from "vite-imagetools";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      compiler: true,
+    }),
     babel({
       presets: [reactCompilerPreset()],
     }),

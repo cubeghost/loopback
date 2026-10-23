@@ -1,12 +1,12 @@
 .app {
-  max-width: 1024px;
+  /* max-width: 1024px; */
   margin: 1rem auto;
   display: grid;
   grid-template-columns: 1fr var(--hydra-width) 1fr;
-  grid-template-rows: min-content var(--hydra-height) min-content 1fr;
+  grid-template-rows: min-content min-content min-content 1fr;
   grid-template-areas: ". mixer ."
     "input-panel-0 frame input-panel-1"
     "input-connect-0 feedback input-connect-1"
     ". code .";
-  gap: 1rem;
+  gap: 1rem 1.5rem;
 }

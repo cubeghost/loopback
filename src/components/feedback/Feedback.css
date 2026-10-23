@@ -2,4 +2,10 @@
   grid-area: feedback;
   background-color: #2f484e;
   padding: 0 2rem;
+  margin-top: 54px;
+}
+
+.feedback-row {
+  display: flex;
+  gap: 1rem;
 }

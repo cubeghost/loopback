@@ -1,18 +1,34 @@
 .surface.source {
-  border-image-source: url(../../assets/surface-source.png);
+  width: 236px;
+  height: 168px;
+  padding: 1rem;
+}
+
+.surface.source:before {
+  background-image: url(../../assets/blob_green.gif);
 }
 
 .input-panel-1 .surface.source {
-  border-image-source: url(../../assets/surface-source-alt.png);
+  width: 244px;
+  height: 162px;
+}
+
+.input-panel-1 .surface.source:before {
+  background-image: url(../../assets/blob_purple.gif);
 }
 
 .source {
   width: calc(100% - 20px);
-  /* background-color: #a3ce27; */
   margin: 1rem 0;
 }
 
-.source::after {}
+.source fieldset legend {
+  padding: 0 2.5rem;
+}
+
+.input-panel-1 .source fieldset legend {
+  justify-content: flex-end;
+}
 
 .source fieldset {
   border: 0;

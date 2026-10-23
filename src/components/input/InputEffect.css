@@ -1,22 +1,30 @@
 .surface.effect {
-  border-image-source: url(../../assets/surface-effect.png);
-  align-self: stretch;
-  --highlight: #dac015;
+  width: 260px;
+  height: 204px;
+  padding: 1rem;
+  --highlight: #a8c23a;
   --foreground: #312f24;
+  color: var(--foreground);
   /* background-color: #ad9d33; */
 }
 
+.surface.effect:before {
+  background-image: url(../../assets/blob_chartreuse.gif);
+}
+
 .input-panel-1 .surface.effect {
-  border-image-source: url(../../assets/surface-effect-alt.png);
+  height: 196px;
   --highlight: #4f55e9;
   --foreground: #252433;
 }
 
-.effect {
-  color: var(--foreground)
+.input-panel-1 .surface.effect:before {
+  background-image: url(../../assets/blob_violet.gif);
 }
 
-.effect:has(.effect-enabled:checked):before {}
+.effect fieldset legend {
+  padding-left: 3rem;
+}
 
 .effect-options {
   display: flex;
@@ -24,6 +32,8 @@
 }
 
 .effect-option {
+  box-sizing: content-box;
+  image-rendering: pixelated;
   position: relative;
   display: block;
   width: 2rem;
