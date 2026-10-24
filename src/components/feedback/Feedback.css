@@ -2,10 +2,22 @@
   grid-area: feedback;
   background-color: #2f484e;
   padding: 0 2rem;
-  margin-top: 54px;
+  margin-top: -2rem;
+  margin-left: 2rem;
+  z-index: 1;
+  --highlight: #34879c;
 }
 
 .feedback-row {
   display: flex;
   gap: 1rem;
+}
+
+.feedback .knob-container {
+  margin: 0 0.5rem;
+  --knob-background: #3a6873;
+}
+
+.feedback .knob-label {
+  color: #3e899c;
 }

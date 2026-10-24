@@ -31,16 +31,7 @@ function App() {
     if (camera === "granted") {
       setInputSource(0, {
         type: "camera",
-        cameraIndex: 0,
-      });
-    }
-  }, [camera, setInputSource]);
-
-  useEffect(() => {
-    if (camera === "granted") {
-      setInputSource(0, {
-        type: "camera",
-        cameraIndex: 0,
+        // cameraIndex: 0,
       });
     }
   }, [camera, setInputSource]);
@@ -68,10 +59,11 @@ function App() {
         <Input index={0} />
         <Input index={1} />
 
-        <Mixer />
-
         <Hydra enableAudio={microphone === "granted"} />
-        <Feedback enableAudio={microphone === "granted"} />
+        <div className="modifiers">
+          <Mixer />
+          <Feedback enableAudio={microphone === "granted"} />
+        </div>
 
         <HydraCode />
 

@@ -30,13 +30,12 @@ export function Feedback() {
         <div className="feedback-row">
           <KnobInput
             id="threshold"
-            label="threshold"
+            label="drop"
             value={feedback.threshold}
             step={0.05}
             min={0}
             max={1}
             onChange={(value) => {
-              console.log(value);
               setFeedback({ threshold: value });
               playScroll({
                 playbackRate: rangePlaybackRate(normalizeRangeValue(value, 0, 1)),
@@ -45,10 +44,10 @@ export function Feedback() {
           />
           <KnobInput
             id="intensity"
-            label="intensity"
+            label="echo"
             value={feedback.intensity}
             step={0.01}
-            min={0}
+            min={-0.2}
             max={0.2}
             onChange={(value) => {
               setFeedback({ intensity: value });
@@ -59,7 +58,7 @@ export function Feedback() {
           />
           <KnobInput
             id="scale"
-            label="scale"
+            label="zoom"
             value={feedback.scale}
             step={0.05}
             min={-2}
@@ -71,7 +70,7 @@ export function Feedback() {
               });
             }}
           />
-          <KnobInput
+          {/* <KnobInput
             id="offset"
             label="offset"
             value={feedback.offset}
@@ -84,7 +83,7 @@ export function Feedback() {
                 playbackRate: rangePlaybackRate(normalizeRangeValue(value, -2, 2)),
               });
             }}
-          />
+          /> */}
         </div>
         <div>
           <label className="control">
@@ -105,7 +104,7 @@ export function Feedback() {
             step={0.1}
             min={-5}
             max={5}
-            style={{ "--knob-size": "2rem" } as React.CSSProperties}
+            style={{ "--knob-size": "3rem" } as React.CSSProperties}
             onChange={(value) => {
               setFeedback({ audioReactiveAmount: value });
               playScroll({

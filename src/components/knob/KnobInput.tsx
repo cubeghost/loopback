@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { KnobHeadless, KnobHeadlessOutput, useKnobKeyboardControls } from "react-knob-headless";
 
@@ -15,12 +16,14 @@ type KnobInputProps = {
   step: KnobKeyboardProps["step"];
   value: KnobHeadlessProps["valueRaw"];
   onChange: KnobHeadlessProps["onValueRawChange"];
+  disabled?: boolean;
+  led?: boolean;
   className?: string;
   style?: React.CSSProperties;
 };
 
-const minAngle = -145;
-const maxAngle = 145;
+const minAngle = -130;
+const maxAngle = 130;
 
 export function KnobInput({
   id,
@@ -30,6 +33,8 @@ export function KnobInput({
   min,
   max,
   step,
+  disabled = false,
+  led = false,
   className,
   style = {},
 }: KnobInputProps) {
@@ -45,26 +50,28 @@ export function KnobInput({
     roundValueRef.current = round;
   }, [onChange, valueRawRoundFn, rawValue]);
 
+  function onValueRawChange(value: number) {
+    if (disabled) return;
+    setRawValue(value);
+  }
+
   const normalizedValue = normalizeRangeValue(valueRawRoundFn(value), min, max);
   const angle = denormalizeRangeValue(normalizedValue, minAngle, maxAngle);
 
   const keyboardControlHandlers = useKnobKeyboardControls({
-    valueRaw: value,
+    valueRaw: rawValue,
     valueMin: min,
     valueMax: max,
     step,
-    stepLarger: step,
-    onValueRawChange: setRawValue,
+    stepLarger: step * 5,
+    onValueRawChange,
   });
 
   return (
-    <div className={`knob-container ${className}`} style={style}>
-      <label htmlFor={id} className="visually-hidden">
-        {label}
-      </label>
+    <div className={clsx("knob-container", className)} style={style}>
       <KnobHeadless
         id={id}
-        className="knob-input"
+        className={clsx("knob-input", disabled && "knob-input--disabled")}
         aria-labelledby="" // TODO
         valueMin={min}
         valueMax={max}
@@ -72,21 +79,32 @@ export function KnobInput({
         dragSensitivity={0.006}
         mapTo01={normalizeRangeValue}
         mapFrom01={denormalizeRangeValue}
-        onValueRawChange={setRawValue}
+        onValueRawChange={onValueRawChange}
         valueRawRoundFn={valueRawRoundFn}
         valueRawDisplayFn={() => ""}
+        onDoubleClick={() => setRawValue(denormalizeRangeValue(0.5, min, max))}
+        // @ts-expect-error
+        tabIndex={0}
         {...keyboardControlHandlers}
       >
-        <div className="knob-thumb">
-          <div
-            className="knob-thumb-inner"
-            style={{ "--angle": `${angle}deg` } as React.CSSProperties}
-          >
+        <div
+          className="knob-thumb"
+          style={{ "--knob-angle": `${angle}deg` } as React.CSSProperties}
+        >
+          <div className="knob-thumb-outer">
+            <div className="knob-thumb-gradient" />
             <div className="knob-thumb-indicator" />
+            {led}
           </div>
+          <div className="knob-thumb-inner"></div>
         </div>
       </KnobHeadless>
-      <KnobHeadlessOutput htmlFor={id}>{Math.round(normalizedValue * 100)}%</KnobHeadlessOutput>
+      <label htmlFor={id} className="knob-label">
+        {label}
+      </label>
+      <KnobHeadlessOutput className="visually-hidden" htmlFor={id}>
+        {Math.round(normalizedValue * 100)}%
+      </KnobHeadlessOutput>
     </div>
   );
 }

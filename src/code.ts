@@ -1,7 +1,14 @@
 import { EFFECTS } from "./constants";
-import type { SketchState } from "./state/sketch";
+import type {
+  InputKey,
+  SketchEffect,
+  SketchInput,
+  SketchSource,
+  SketchState,
+} from "./state/sketch";
+import { typedFromEntries, typedObjectKeys } from "./utils";
 
-const notFalse = (line: string | boolean) => line !== false;
+export const notFalse = (line: string | boolean) => line !== false;
 
 const MOUSE_POSITIONS = [
   "x = () => (-mouse.x/width)+.5",
@@ -48,24 +55,28 @@ function generateHydraFeedbackCode(
     .join("\n");
 }
 
-export function generateHydraCode(sketch: SketchState) {
+// merge source and effect dicts
+type SketchInputs = {
+  [K in InputKey]: { source: SketchSource; effect: SketchEffect };
+};
+function mergeInputs(sketch: SketchState): SketchInputs {
+  return typedFromEntries(
+    typedObjectKeys(sketch.sources).map((key) => [
+      key,
+      {
+        source: sketch.sources[key],
+        effect: sketch.effects[key],
+      },
+    ]),
+  );
+}
+
+export function generateHydraRender(sketch: SketchState) {
   const o = "o3";
+  const inputs = mergeInputs(sketch);
   const code = [
     sketch.feedback.followCursor ? MOUSE_POSITIONS : false,
-    ...Object.values(sketch.inputs).map((input, index) => {
-      switch (input.source.type) {
-        case "camera":
-          return `s${index}.initCam(${input.source.cameraIndex ?? ""})`;
-        case "video":
-          return `s${index}.initVideo("${input.source.videoUrl ?? ""}")`;
-        case "screen":
-          return `s${index}.initScreen()`;
-        default:
-          return false;
-      }
-    }),
-    "",
-    ...Object.values(sketch.inputs).map((input, index) => {
+    ...Object.values(inputs).map((input, index) => {
       let source = (() => {
         switch (input.source.type) {
           case "camera":
@@ -90,4 +101,33 @@ export function generateHydraCode(sketch: SketchState) {
   ];
 
   return code.filter(notFalse).join("\n");
+}
+
+export function generateHydraInitializer(
+  index: InputKey,
+  source: SketchSource,
+) {
+  switch (source.type) {
+    case "camera":
+      return `s${index}.initCam(${source.cameraIndex ?? ""})`;
+    case "video":
+      return `s${index}.initVideo("${source.videoUrl ?? ""}")`;
+    case "screen":
+      return `s${index}.initScreen()`;
+    default:
+      return false;
+  }
+}
+
+export function generateHydraInitializers(sketch: SketchState) {
+  return Object.values(sketch.sources)
+    .map((source, index) => generateHydraInitializer(index as InputKey, source))
+    .filter(notFalse)
+    .join("\n");
+}
+
+export function generateHydraCode(sketch: SketchState) {
+  return [generateHydraInitializers(sketch), generateHydraRender(sketch)]
+    .filter(notFalse)
+    .join("\n\n");
 }

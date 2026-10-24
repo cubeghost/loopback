@@ -20,7 +20,6 @@
       canvas
     };
 
-    let source;
     let hydra = new Hydra({
       ...hydraArgs,
       detectAudio: false
@@ -28,25 +27,30 @@
 
     const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
     const run = async (code) => {
-      source = code;
       try {
-        hydra.eval(source)
+        hydra.eval(code)
       } catch (err) {
         console.log(err);
       }
     };
+    const reinitWithAudio = (detectAudio) => {
+      hydra.hush();
+      hydra = new Hydra({
+        ...hydraArgs,
+        detectAudio
+      });
+    }
 
     window.addEventListener("message", (event) => {
-      if (event.data.type === "hydra") {
-        if (event.data.detectAudio !== hydra.detectAudio) {
-          hydra.hush();
-          hydra = new Hydra({
-            ...hydraArgs,
-            detectAudio: event.data.detectAudio
-          });
-        }
-
-        run(event.data.code);
+      if ("detectAudio" in event.data && event.data.detectAudio !== hydra.detectAudio) {
+        reinitWithAudio(event.data.detectAudio);
+      }
+      switch (event.data.type) {
+        case "hydra:start":
+        case "hydra:render":
+        case "hydra:init":
+          run(event.data.code);
+          return;
       }
     });
   </script>

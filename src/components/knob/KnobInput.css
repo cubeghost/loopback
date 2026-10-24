@@ -1,5 +1,7 @@
 .knob-container {
-  --knob-size: 4rem;
+  --knob-size: 4.5rem;
+  --knob-color: #000;
+  --knob-background: rgba(255, 255, 255, 0.05);
 
   width: var(--knob-size);
   position: relative;
@@ -8,64 +10,110 @@
   align-items: center;
 }
 
-/* .knob-container:focus-within {
-  outline: 3px solid red;
-} */
-
 .knob-input {
+  /* background-color: var(--background); */
+  /* background-image: conic-gradient(from -130deg, var(--background), 260deg, var(--background), 260deg, transparent); */
+  background-image: radial-gradient(circle at center, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3) 51%, transparent 51%, transparent 100%);
   position: relative;
   width: var(--knob-size);
   height: var(--knob-size);
   border-radius: 50%;
   outline: none;
   box-sizing: content-box;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  padding: calc(var(--knob-size) / 8);
+}
+
+.knob-input:focus {
+  --knob-background: var(--highlight);
+}
+
+.knob-input:hover,
+.knob-input:active {
+  cursor: ns-resize;
+}
+
+.knob-input:before {
+  content: "";
+  inset: 2px;
+  position: absolute;
+  background-image: conic-gradient(from -130deg, var(--knob-background), 260deg, var(--knob-background), 260deg, transparent);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .knob-thumb {
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
-  overflow: hidden;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
 }
 
-.knob-input:focus .knob-thumb {
-  /* border: 3px solid #000; */
-}
-
-/* .knob-thumb:before {
-  content: "";
+.knob-thumb-outer {
   position: absolute;
-  inset: 0;
-  background-image: linear-gradient(0deg, #000, #999);
-  mix-blend-mode: lighten;
-} */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--knob-angle));
 
-.knob-thumb-inner {
-  /* background-image: linear-gradient(calc(360deg - var(--angle)), #000, #111); */
-  background-color: #000;
-  transform: rotate(var(--angle));
   --s: calc(var(--knob-size) * 1.2);
   width: var(--s);
+  /* height: var(--s); */
   aspect-ratio: 1;
-  --g: /calc(var(--s)*0.274) calc(var(--s)*0.274) radial-gradient(50% 50%, #000 99%, #0000 101%) no-repeat;
-  mask: calc(50% + var(--s)*0.286) calc(50% + var(--s)*0.161) var(--g), calc(50% + var(--s)*0.003) calc(50% + var(--s)*0.328) var(--g), calc(50% + var(--s)*-0.282) calc(50% + var(--s)*0.167) var(--g), calc(50% + var(--s)*-0.286) calc(50% + var(--s)*-0.161) var(--g), calc(50% + var(--s)*-0.003) calc(50% + var(--s)*-0.328) var(--g), calc(50% + var(--s)*0.282) calc(50% + var(--s)*-0.167) var(--g), radial-gradient(calc(var(--s)*0.402), #000 99%, #0000 101%) subtract, calc(50% + var(--s)*0.256) calc(50% + var(--s)*0.433) var(--g), calc(50% + var(--s)*-0.247) calc(50% + var(--s)*0.439) var(--g), calc(50% + var(--s)*-0.504) calc(50% + var(--s)*0.005) var(--g), calc(50% + var(--s)*-0.256) calc(50% + var(--s)*-0.433) var(--g), calc(50% + var(--s)*0.247) calc(50% + var(--s)*-0.439) var(--g), calc(50% + var(--s)*0.504) calc(50% + var(--s)*-0.005) var(--g);
+  --g: /calc(var(--s)*0.322) calc(var(--s)*0.322) radial-gradient(50% 50%, #000 99%, #0000 101%) no-repeat;
+  mask: radial-gradient(calc(var(--s)*0.409), #000 99%, #0000 101%) subtract, calc(50% + (var(--s) * 0.409)) calc(50% + (var(--s) * 0.326)) var(--g), calc(50% + (var(--s) * 0.000)) calc(50% + (var(--s) * 0.524)) var(--g), calc(50% + (var(--s) * -0.409)) calc(50% + (var(--s) * 0.326)) var(--g), calc(50% + (var(--s) * -0.510)) calc(50% + (var(--s) * -0.116)) var(--g), calc(50% + (var(--s) * -0.227)) calc(50% + (var(--s) * -0.472)) var(--g), calc(50% + (var(--s) * 0.227)) calc(50% + (var(--s) * -0.472)) var(--g), calc(50% + (var(--s) * 0.510)) calc(50% + (var(--s) * -0.116)) var(--g);
 }
 
-.knob-thumb,
-.knob-thumb-inner {
+.knob-thumb-gradient {
   position: absolute;
-  width: 100%;
-  height: 100%;
+  inset: 0;
+  background-color: var(--knob-color);
+  background-image: linear-gradient(-30deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.2));
+  transform: rotate(calc(-1 * var(--knob-angle)));
+}
+
+.knob-thumb-inner {
+  /* display: none; */
+
+  position: absolute;
+  inset: calc(var(--knob-size) / 7);
+  border-radius: 50%;
+  z-index: 1;
+
+  border: calc(var(--knob-size) / 24) solid var(--knob-color);
+  background-color: hsl(0, 0%, 80%);
+  background-image: conic-gradient(from 0deg,
+      /*var(--knob-angle),*/
+      hsla(0, 0%, 10%, 0.5),
+      hsla(0, 0%, 50%, 0.5),
+      hsla(0, 0%, 10%, 0.5),
+      hsla(0, 0%, 70%, 0.5),
+      hsla(0, 0%, 10%, 0.5),
+      hsla(0, 0%, 50%, 0.5),
+      hsla(0, 0%, 10%, 0.5)),
+    repeating-radial-gradient(circle at center,
+      hsla(0, 0%, 90%, 0.05) 0px,
+      hsla(0, 0%, 85%, 0.05) 2px,
+      hsla(0, 0%, 30%, 0.05) 4px,
+      hsla(0, 0%, 90%, 0.05) 5px,
+      hsla(0, 0%, 85%, 0.05) 7px,
+      hsla(0, 0%, 30%, 0.05) 8px);
+  background-blend-mode: overlay;
 }
 
 .knob-thumb-indicator {
   position: absolute;
   left: 50%;
-  top: 0;
-  height: calc(var(--knob-size) / 3);
-  width: 2px;
+  top: -2px;
+  height: calc(var(--knob-size) / 4);
+  width: max(2px, calc(var(--knob-size) / 16));
+  border-radius: 2px;
   transform: translateX(-50%);
   background-color: #fff;
+}
+
+.knob-label {
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  font-family: monospace;
+  font-weight: bold;
 }

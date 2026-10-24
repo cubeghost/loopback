@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
+import { useShallow } from "zustand/shallow";
 
-import { generateHydraCode } from "../../code";
+import { generateHydraCode, generateHydraInitializer, generateHydraRender } from "../../code";
 import { HYDRA_HEIGHT, HYDRA_WIDTH } from "../../constants";
 import { useSketch } from "../../state/sketch";
 
@@ -20,13 +21,20 @@ export function Hydra({ enableAudio }: HydraProps) {
     enableAudioRef.current = enableAudio;
   }, [enableAudio]);
 
-  const sketch = useSketch();
+  const source0 = useSketch(useShallow((state) => state.sources[0]));
+  const source1 = useSketch(useShallow((state) => state.sources[1]));
+  const sketch = useSketch(
+    useShallow((state) => {
+      const { sources: _, ...rest } = state;
+      return rest;
+    }),
+  );
 
   useEffect(() => {
     if (frameRef.current) {
       frameRef.current.addEventListener("load", () => {
         frameRef.current?.contentWindow?.postMessage({
-          type: "hydra",
+          type: "hydra:start",
           code: generateHydraCode(useSketch.getState()),
           detectAudio: enableAudioRef.current,
         });
@@ -37,12 +45,30 @@ export function Hydra({ enableAudio }: HydraProps) {
   useEffect(() => {
     if (frameRef.current) {
       frameRef.current.contentWindow?.postMessage({
-        type: "hydra",
-        code: generateHydraCode(sketch),
+        type: "hydra:render",
+        code: generateHydraRender(useSketch.getState()),
         detectAudio: enableAudio,
       });
     }
   }, [sketch, enableAudio]);
+
+  useEffect(() => {
+    if (frameRef.current) {
+      frameRef.current.contentWindow?.postMessage({
+        type: "hydra:init",
+        code: generateHydraInitializer(0, source0),
+      });
+    }
+  }, [source0]);
+
+  useEffect(() => {
+    if (frameRef.current) {
+      frameRef.current.contentWindow?.postMessage({
+        type: "hydra:init",
+        init: generateHydraInitializer(1, source1),
+      });
+    }
+  }, [source1]);
 
   return (
     <div className="hydra">
@@ -50,7 +76,7 @@ export function Hydra({ enableAudio }: HydraProps) {
       <iframe
         src={`${window.location.origin}/frame.html`}
         sandbox="allow-scripts allow-same-origin"
-        allow="microphone; camera"
+        allow="microphone; camera; display-capture"
         width={width}
         height={height}
         ref={frameRef}

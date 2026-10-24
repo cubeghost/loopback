@@ -78,10 +78,6 @@ legend {
 }
 
 .surface {
-  /* overflow: hidden; */
-  /* border-image-slice: 8 8 8 8 fill;
-  border-image-width: 10px 10px 10px 10px; */
-  /* image-rendering: pixelated; */
   position: relative;
   z-index: 2;
 }

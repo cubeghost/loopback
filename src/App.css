@@ -4,9 +4,21 @@
   display: grid;
   grid-template-columns: 1fr var(--hydra-width) 1fr;
   grid-template-rows: min-content min-content min-content 1fr;
-  grid-template-areas: ". mixer ."
+  grid-template-areas:
     "input-panel-0 frame input-panel-1"
-    "input-connect-0 feedback input-connect-1"
+    "modifiers modifiers modifiers"
     ". code .";
   gap: 1rem 1.5rem;
+  margin-top: 5rem;
+}
+
+.modifiers {
+  grid-area: modifiers;
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2rem;
 }

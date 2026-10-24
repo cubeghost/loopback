@@ -14,9 +14,9 @@ export function Mixer() {
       <fieldset>
         <legend>Blend</legend>
         <label className="control">
-          <span>Input 0</span>
           <input
             type="range"
+            className="fader"
             value={blend}
             step={0.1}
             min={0}
@@ -26,7 +26,6 @@ export function Mixer() {
               playClick();
             }}
           />
-          <span>Input 1</span>
         </label>
       </fieldset>
     </div>

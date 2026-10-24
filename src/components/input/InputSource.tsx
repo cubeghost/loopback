@@ -44,7 +44,7 @@ export function InputSource({ source, setSource }: SourceProps) {
         {source.type === "camera" && (
           <div>
             <select
-              value={source.cameraIndex}
+              value={source.cameraIndex ?? ""}
               onChange={(event) => {
                 setSource({
                   cameraIndex: event.target.value,

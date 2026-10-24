@@ -4,7 +4,7 @@ import { VIDEO_ASSETS, type Effect } from "../constants";
 export type SketchSource =
   | {
       type: "camera";
-      cameraIndex: number | string;
+      cameraIndex: number | string | null;
     }
   | {
       type: "video";
@@ -18,7 +18,7 @@ export type SketchSource =
 const DEFAULT_SOURCE_VALUES: {
   [K in SketchSource["type"]]: Omit<Extract<SketchSource, { type: K }>, "type">;
 } = {
-  camera: { cameraIndex: 0 },
+  camera: { cameraIndex: "" },
   video: { videoUrl: "" },
   screen: {},
   noise: { noiseScale: "5", noiseSpeed: "0.5" },
@@ -26,11 +26,6 @@ const DEFAULT_SOURCE_VALUES: {
 
 export type SketchEffect = {
   id: Effect["id"] | null;
-};
-
-export type SketchInput = {
-  source: SketchSource;
-  effect: SketchEffect;
 };
 
 export interface SketchFeedback {
@@ -45,11 +40,16 @@ export interface SketchFeedback {
 }
 
 export type InputKey = 0 | 1;
+
 export interface SketchState {
-  inputs: {
-    [K in InputKey]: SketchInput;
+  sources: {
+    [K in InputKey]: SketchSource;
   };
   setInputSource: (index: InputKey, source: Partial<SketchSource>) => void;
+
+  effects: {
+    [K in InputKey]: SketchEffect;
+  };
   setInputEffect: (index: InputKey, effect: Partial<SketchEffect>) => void;
 
   feedback: SketchFeedback;
@@ -60,50 +60,50 @@ export interface SketchState {
 }
 
 export const useSketch = create<SketchState>()((set) => ({
-  inputs: {
+  sources: {
     0: {
-      source: {
-        type: "video",
-        videoUrl: VIDEO_ASSETS.find((v) => v.id === "wiki")!.videoUrl,
-      },
-      effect: { id: "1" },
+      type: "video",
+      videoUrl: VIDEO_ASSETS.find((v) => v.id === "wiki")!.videoUrl,
     },
     1: {
-      source: {
-        type: "video",
-        videoUrl: VIDEO_ASSETS[0].videoUrl,
-      },
-      effect: { id: null },
+      type: "video",
+      videoUrl: VIDEO_ASSETS[0].videoUrl,
     },
   },
   setInputSource: (index, source) =>
     set((state) => {
-      const currentSource = state.inputs[index].source;
+      const currentSource = state.sources[index];
       const sourceDefaults =
         source.type && source.type !== currentSource.type
           ? DEFAULT_SOURCE_VALUES[source.type]
           : {};
       return {
-        inputs: {
-          ...state.inputs,
+        sources: {
+          ...state.sources,
           [index]: {
-            source: {
-              ...sourceDefaults,
-              ...state.inputs[index].source,
-              ...source,
-            } as SketchSource, // we merge properties from other source types as a way of saving previous state
-            effect: state.inputs[index].effect,
-          },
+            ...sourceDefaults,
+            ...currentSource,
+            ...source,
+          } as SketchSource, // we merge properties from other source types as a way of saving previous state
         },
       };
     }),
+
+  effects: {
+    0: {
+      id: "1",
+    },
+    1: {
+      id: null,
+    },
+  },
   setInputEffect: (index, effect) =>
     set((state) => ({
-      inputs: {
-        ...state.inputs,
+      effects: {
+        ...state.effects,
         [index]: {
-          source: state.inputs[index].source,
-          effect: { ...state.inputs[index].effect, ...effect },
+          ...state.effects[index],
+          ...effect,
         },
       },
     })),

@@ -11,11 +11,12 @@ interface InputProps {
 }
 
 export function Input({ index }: InputProps) {
-  const { input, setSource, setEffect, isActive } = useSketch(
+  const { source, effect, setSource, setEffect, isActive } = useSketch(
     useShallow((state) => {
       const blend = parseFloat(state.blend);
       return {
-        input: state.inputs[index],
+        source: state.sources[index],
+        effect: state.effects[index],
         setSource: state.setInputSource,
         setEffect: state.setInputEffect,
         isActive: Number.isInteger(blend) === false || blend === index,
@@ -35,10 +36,10 @@ export function Input({ index }: InputProps) {
           } as React.CSSProperties
         }
       >
-        <InputSource source={input.source} setSource={(source) => setSource(index, source)} />
+        <InputSource source={source} setSource={(source) => setSource(index, source)} />
         <InputEffect
           index={index}
-          effect={input.effect}
+          effect={effect}
           setEffect={(effect) => setEffect(index, effect)}
         />
       </div>

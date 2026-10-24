@@ -1,8 +1,8 @@
 .mixer {
   grid-area: mixer;
   background-color: #2f484e;
-  padding: 0 2rem;
-  margin-bottom: 54px;
+  width: 32rem;
+  margin-bottom: 2rem;
 }
 
 .mixer .control input[type=range] {
@@ -11,4 +11,120 @@
 
 .mixer .control {
   display: flex;
+}
+
+input[type=range].fader {
+  --thumb-color: #1b1b1b;
+  --thumb-width: 3.5rem;
+  --thumb-height: 1.75rem;
+
+  --track-width: 100%;
+  --track-height: 0.75rem;
+
+  --tick-color: rgba(255, 255, 255, 0.25);
+  --tick-width: 1px;
+  --tick-height: 0.75rem;
+  --tick-spacing: calc((var(--track-width) - var(--thumb-width)) / 10);
+  --tick-offset: calc(var(--thumb-width) / 2 + ((var(--tick-width) / 2) * -1));
+
+  -webkit-appearance: none;
+  position: relative;
+  width: var(--track-width);
+  height: calc((var(--thumb-height) + var(--tick-height)) * 2);
+  background: linear-gradient(90deg, var(--tick-color) var(--tick-width), transparent 0),
+    linear-gradient(90deg, var(--tick-color) var(--tick-width), transparent 0);
+  background-clip: padding-box;
+  background-position: var(--tick-offset) -0.125rem,
+    var(--tick-offset) calc(100% + 0.125rem);
+  background-repeat: repeat-x;
+  background-size: var(--tick-spacing) var(--tick-height);
+  background-color: currentColor;
+  border: solid 1em currentColor;
+  color: transparent;
+  font-size: 1em;
+  cursor: pointer;
+  overflow: visible;
+
+  --thumb-shadow: inset 0.125rem 0 0 0 var(--thumb-color),
+    inset -0.125rem 0 0 0 var(--thumb-color),
+    inset 0 1px 0 0 var(--thumb-color),
+    inset 0 -2px 0 0 var(--thumb-color),
+    0 2px 0 0 var(--thumb-color);
+  --thumb-gradient:
+    radial-gradient(ellipse 45% 55% at center, transparent, transparent 80%, var(--thumb-color)),
+    linear-gradient(90deg,
+      hsla(0, 0%, 100%, 0) 15%,
+      hsla(0, 0%, 100%, 0.25) 46%,
+      var(--thumb-color) 48%,
+      #ffffff 48%,
+      #ffffff 52%,
+      var(--thumb-color) 52%,
+      hsla(0, 0%, 100%, 0.25) 54%,
+      hsla(0, 0%, 100%, 0) 85%);
+
+  --track-shadow:
+    0 1px 0 hsla(0, 0%, 100%, 0.05),
+    inset 0 0.125rem 0.125rem hsla(0, 0%, 0%, 0.15),
+    inset 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.15);
+  --track-inset: calc(var(--track-height) / 3);
+  --track-gradient:
+    linear-gradient(hsla(0, 0%, 0%, 0.25), hsla(0, 0%, 0%, 0.25));
+}
+
+input[type=range].fader::-webkit-slider-runnable-track,
+input[type=range].fader::-webkit-slider-thumb {
+  -webkit-appearance: none
+}
+
+input[type=range].fader::-webkit-slider-runnable-track {
+  width: var(--track-width);
+  height: var(--track-height);
+  box-shadow: var(--track-shadow);
+  background-color: rgba(0, 0, 0, 0.15);
+  background-image: var(--track-gradient);
+  background-repeat: no-repeat;
+  background-size: calc(100% - (2 * var(--track-inset))) calc(100% - (2 * var(--track-inset)));
+  background-position: var(--track-inset) var(--track-inset);
+}
+
+input[type=range].fader::-moz-range-track {
+  width: var(--track-width);
+  height: var(--track-height);
+  box-shadow: var(--track-shadow);
+  background-color: rgba(0, 0, 0, 0.15);
+  background-image: var(--track-gradient);
+  background-repeat: no-repeat;
+  background-size: calc(100% - (2 * var(--track-inset))) calc(100% - (2 * var(--track-inset)));
+  background-position: var(--track-inset) var(--track-inset);
+}
+
+input[type=range].fader::-webkit-slider-thumb {
+  border: none;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  border-radius: .125rem;
+  box-shadow: var(--thumb-shadow);
+  background-color: var(--thumb-color);
+  background-image: var(--thumb-gradient);
+  cursor: ew-resize;
+  margin-top: 0;
+  margin-top: calc((var(--track-height) - var(--thumb-height)) / 2);
+  mix-blend-mode: normal;
+  z-index: 1;
+}
+
+input[type=range].fader::-moz-range-thumb {
+  border: none;
+  width: var(--thumb-width);
+  height: var(--thumb-height);
+  border-radius: .125rem;
+  box-shadow: var(--thumb-shadow);
+  background-color: var(--thumb-color);
+  background-image: var(--thumb-gradient);
+  cursor: ew-resize;
+}
+
+input[type=range].fader:focus {
+  outline: none;
+  color: #3a6873;
 }
