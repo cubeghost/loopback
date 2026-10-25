@@ -22,8 +22,8 @@ type KnobInputProps = {
   style?: React.CSSProperties;
 };
 
-const minAngle = -130;
-const maxAngle = 130;
+const minAngle = -135;
+const maxAngle = 135;
 
 export function KnobInput({
   id,
@@ -72,7 +72,7 @@ export function KnobInput({
       <KnobHeadless
         id={id}
         className={clsx("knob-input", disabled && "knob-input--disabled")}
-        aria-labelledby="" // TODO
+        aria-labelledby={`${id}-label`}
         valueMin={min}
         valueMax={max}
         valueRaw={rawValue}
@@ -99,7 +99,7 @@ export function KnobInput({
           <div className="knob-thumb-inner"></div>
         </div>
       </KnobHeadless>
-      <label htmlFor={id} className="knob-label">
+      <label id={`${id}-label`} className="knob-label">
         {label}
       </label>
       <KnobHeadlessOutput className="visually-hidden" htmlFor={id}>

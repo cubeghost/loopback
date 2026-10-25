@@ -1,16 +1,42 @@
 .feedback {
   grid-area: feedback;
-  background-color: #2f484e;
-  padding: 0 2rem;
+  width: 400px;
+  height: 274px;
+  /* background-color: #16464c; */
+  padding: 2rem 1rem;
   margin-top: -2rem;
   margin-left: 2rem;
   z-index: 1;
   --highlight: #34879c;
 }
 
-.feedback-row {
+.surface.feedback:before {
+  background-image: url(../../assets/pedal_decal_flip.gif);
+}
+
+.feedback legend {
+  position: absolute;
+  bottom: 6%;
+  right: 8%;
+  width: auto;
+  color: #34879c;
+  font-size: 1.25rem;
+}
+
+.feedback .knob-row {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.feedback .options-row {
+  display: flex;
+  padding: 1rem 0.5rem;
+  gap: 0.5rem;
+}
+
+.feedback .options-row .knob-container {
+  margin-right: auto;
 }
 
 .feedback .knob-container {
@@ -18,6 +44,25 @@
   --knob-background: #3a6873;
 }
 
-.feedback .knob-label {
+.feedback .knob-label,
+.feedback .switch-label {
   color: #3e899c;
+  font-family: var(--monospace);
+  font-size: 0.875rem;
+  line-height: 1;
+  text-transform: uppercase;
+  background-color: #16464c;
+  margin-top: 0.375rem;
+  padding: 0.125rem 0.25rem;
+}
+
+.feedback .switch {
+  --switch-width: 2.5rem;
+  --switch-background: #3a68734e;
+  --switch-perspective: 0.5rem;
+}
+
+.feedback .switch input,
+.feedback .switch-inner {
+  height: 3rem;
 }

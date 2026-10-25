@@ -6,11 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>loopback hydra frame</title>
   <script src="https://cdn.jsdelivr.net/npm/hydra-synth/dist/hydra-synth.js"></script>
+  <style>
+    ::backdrop {
+      background-color: rgba(0, 0, 0, 0.25);
+    }
+  </style>
 </head>
 
 <body style="margin: 0; overflow: hidden;">
+  <dialog id="permissions">
+    <h2 id="permissions-prompt"></h2>
+    <button id="permissions-trigger"></button>
+    <button commandfor="permissions" command="close">close</button>
+  </dialog>
+
   <canvas id="hydra"></canvas>
   <script>
+    const permissionsModal = document.getElementById("permissions");
+
     const canvas = document.getElementById("hydra");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -27,13 +40,20 @@
 
     const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
     const run = async (code) => {
+      hydra.eval(code);
+    };
+    const init = async (code) => {
+      if (code.includes("initScreen")) {
+
+      }
+
       try {
-        hydra.eval(code)
-      } catch (err) {
-        console.log(err);
+        hydra.eval(code);
+      } catch (error) {
+        permissionsModal.showModal();
       }
     };
-    const reinitWithAudio = (detectAudio) => {
+    const restartWithAudio = (detectAudio) => {
       hydra.hush();
       hydra = new Hydra({
         ...hydraArgs,
@@ -43,11 +63,13 @@
 
     window.addEventListener("message", (event) => {
       if ("detectAudio" in event.data && event.data.detectAudio !== hydra.detectAudio) {
-        reinitWithAudio(event.data.detectAudio);
+        restartWithAudio(event.data.detectAudio);
       }
       switch (event.data.type) {
         case "hydra:start":
         case "hydra:render":
+          init(event.data.code);
+          return;
         case "hydra:init":
           run(event.data.code);
           return;

@@ -2,15 +2,9 @@ import { useSoundEffects } from "../../hooks/useSoundEffects";
 import { useSketch } from "../../state/sketch";
 import { normalizeRangeValue } from "../../utils";
 import { KnobInput } from "../knob/KnobInput";
+import { ToggleSwitch } from "../toggle/ToggleSwitch";
 
 import "./Feedback.css";
-
-function normalizeRangeEventValue(event: React.ChangeEvent<HTMLInputElement>) {
-  const min = parseFloat(event.target.min);
-  const max = parseFloat(event.target.max);
-  const value = parseFloat(event.target.value);
-  return (value - min) / (max - min);
-}
 
 function rangePlaybackRate(normalized: number) {
   return 0.5 + normalized * 0.3;
@@ -24,10 +18,10 @@ export function Feedback() {
   });
 
   return (
-    <div className="feedback">
+    <div className="feedback surface">
       <fieldset>
-        <legend>Feedback</legend>
-        <div className="feedback-row">
+        <legend>feedback</legend>
+        <div className="knob-row">
           <KnobInput
             id="threshold"
             label="drop"
@@ -52,7 +46,7 @@ export function Feedback() {
             onChange={(value) => {
               setFeedback({ intensity: value });
               playScroll({
-                playbackRate: rangePlaybackRate(normalizeRangeValue(value, 0, 0.2)),
+                playbackRate: rangePlaybackRate(normalizeRangeValue(value, -0.2, 0.2)),
               });
             }}
           />
@@ -85,26 +79,17 @@ export function Feedback() {
             }}
           /> */}
         </div>
-        <div>
-          <label className="control">
-            Audio reactive
-            <input
-              type="checkbox"
-              checked={feedback.audioReactive}
-              onChange={(event) => {
-                setFeedback({ audioReactive: event.target.checked });
-                playClick();
-              }}
-            />
-          </label>
+        <div className="options-row">
           <KnobInput
             id="audio-reactive-amount"
-            label="audio reactive amount"
+            label="mic"
             value={feedback.audioReactiveAmount}
             step={0.1}
             min={-5}
             max={5}
             style={{ "--knob-size": "3rem" } as React.CSSProperties}
+            disabled={!feedback.audioReactive}
+            led
             onChange={(value) => {
               setFeedback({ audioReactiveAmount: value });
               playScroll({
@@ -112,30 +97,22 @@ export function Feedback() {
               });
             }}
           />
-        </div>
-        <div>
-          <label className="control">
-            Mask
-            <input
-              type="checkbox"
-              checked={feedback.mask}
-              onChange={(event) => {
-                setFeedback({ mask: event.target.checked });
-                playClick();
-              }}
-            />
-          </label>
-          <label className="control">
-            Follow mouse
-            <input
-              type="checkbox"
-              checked={feedback.followCursor}
-              onChange={(event) => {
-                setFeedback({ followCursor: event.target.checked });
-                playClick();
-              }}
-            />
-          </label>
+          <ToggleSwitch
+            label="mask"
+            value={feedback.mask}
+            onChange={(value) => {
+              setFeedback({ mask: value });
+              playClick();
+            }}
+          />
+          <ToggleSwitch
+            label="follow"
+            value={feedback.followCursor}
+            onChange={(value) => {
+              setFeedback({ followCursor: value });
+              playClick();
+            }}
+          />
         </div>
       </fieldset>
     </div>

@@ -11,7 +11,7 @@ import { Input } from "./components/input/Input";
 import { Mixer } from "./components/mixer/Mixer";
 import { PermissionsModal } from "./components/permissions/PermissionsModal";
 import { PermissionsPrompts } from "./components/permissions/PermissionsPrompts";
-import { HYDRA_HEIGHT, HYDRA_WIDTH, VIDEO_ASSETS } from "./constants";
+import { HYDRA_HEIGHT, HYDRA_WIDTH } from "./constants";
 import { useSketch } from "./state/sketch";
 
 import "./App.css";
@@ -31,7 +31,6 @@ function App() {
     if (camera === "granted") {
       setInputSource(0, {
         type: "camera",
-        // cameraIndex: 0,
       });
     }
   }, [camera, setInputSource]);

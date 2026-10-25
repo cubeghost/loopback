@@ -1,6 +1,6 @@
 .mixer {
   grid-area: mixer;
-  background-color: #2f484e;
+  background-color: #0d3f61;
   width: 32rem;
   margin-bottom: 2rem;
 }
@@ -126,5 +126,5 @@ input[type=range].fader::-moz-range-thumb {
 
 input[type=range].fader:focus {
   outline: none;
-  color: #3a6873;
+  color: var(--highlight, rgba(255, 255, 255, 0.1));
 }

@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from "react";
-import { useDropzone } from "react-dropzone";
+// import { useDropzone } from "react-dropzone";
 
 import { useSoundEffects } from "../../hooks/useSoundEffects";
 import { useVideoDevices } from "../../hooks/useVideoDevices";
@@ -14,14 +14,14 @@ interface SourceProps {
 
 export function InputSource({ source, setSource }: SourceProps) {
   const [play] = useSoundEffects("click_subtle");
-  const [file, setFile] = useState<File | null>(null);
+  // const [file, setFile] = useState<File | null>(null);
   const devices = useVideoDevices();
 
-  const { getRootProps, getInputProps, isDragGlobal } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      setFile(acceptedFiles[0]);
-    },
-  });
+  // const { getRootProps, getInputProps, isDragGlobal } = useDropzone({
+  //   onDrop: (acceptedFiles) => {
+  //     setFile(acceptedFiles[0]);
+  //   },
+  // });
 
   function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
     const type = event.target.value as SketchSource["type"];
@@ -32,7 +32,7 @@ export function InputSource({ source, setSource }: SourceProps) {
   }
 
   return (
-    <div {...getRootProps({ className: "surface source" })}>
+    <div className="surface source">
       <fieldset>
         <legend>Source</legend>
         <select value={source.type} onChange={handleTypeChange}>
@@ -94,10 +94,10 @@ export function InputSource({ source, setSource }: SourceProps) {
             </div>
           </>
         )}
-        {file ? <span>file.name</span> : null}
+        {/* {file ? <span>file.name</span> : null} */}
         {/* <input {...getInputProps()} /> */}
       </fieldset>
-      {isDragGlobal && <div className="source-drag-overlay">Drop to upload</div>}
+      {/* {isDragGlobal && <div className="source-drag-overlay">Drop to upload</div>} */}
     </div>
   );
 }

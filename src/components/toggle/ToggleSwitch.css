@@ -1,0 +1,167 @@
+.switch {
+  --switch-width: 4rem;
+  --switch-color: #141414;
+  --switch-background: rgba(255, 255, 255, 0.05);
+  --switch-perspective: 0.75rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.switch input[type=checkbox] {
+  opacity: 0;
+  display: block;
+  width: var(--switch-width);
+  aspect-ratio: 1;
+  margin: 0;
+}
+
+.switch-inner {
+  position: absolute;
+  width: var(--switch-width);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-inner .switch-base {
+  position: absolute;
+  flex-grow: 0;
+  width: 100%;
+  aspect-ratio: 1 / cos(30deg);
+  clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
+  background-color: hsl(0, 0%, 80%);
+  background-image: var(--metal-conic-gradient);
+  background-blend-mode: overlay;
+}
+
+.switch-inner .switch-base:before,
+.switch-inner .switch-base:after,
+.switch-inner:before,
+.switch-inner:after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% * (sqrt(3) / 2) * var(--s));
+  aspect-ratio: 1;
+  border-radius: 50%;
+}
+
+.switch-inner .switch-base:before {
+  --s: 0.82;
+  box-shadow: 0 0 0 calc(var(--switch-width) / 20) hsla(0, 0%, 0%, 0.25);
+  background-color: hsl(0, 0%, 65%);
+  background-image:
+    var(--metal-radial-gradient),
+    linear-gradient(90deg,
+      hsla(0, 0%, 90%, 0.5),
+      hsla(0, 0%, 90%, 0) 50%);
+  background-blend-mode: overlay;
+}
+
+.switch-inner .switch-base:after {
+  --s: 0.58;
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.3);
+  background-color: hsl(0, 0%, 55%);
+  background-image:
+    radial-gradient(circle at center,
+      hsla(0, 0%, 0%, 0.75),
+      hsla(0, 0%, 0%, 0.75) 39%,
+      hsla(0, 0%, 90%, 0.15) 40%,
+      hsla(0, 0%, 90%, 0.15)),
+    var(--metal-radial-gradient),
+    linear-gradient(-90deg,
+      hsla(0, 0%, 90%, 0.5),
+      hsla(0, 0%, 90%, 0) 50%);
+  background-blend-mode: overlay;
+}
+
+.switch-inner:before {
+  width: 100%;
+  background-color: hsl(0, 0%, 50%);
+}
+
+.switch input[type=checkbox]:focus+.switch-inner:before,
+.switch input[type=checkbox]:active+.switch-inner:before {
+  box-shadow: 0 0 0 calc(var(--switch-width) / 7) var(--highlight);
+}
+
+.switch-inner:after {
+  --s: 0.32;
+  background-color: hsl(0, 0%, 60%);
+  background-image:
+    radial-gradient(circle at center,
+      transparent,
+      transparent 35%,
+      hsla(0, 0%, 0%, 0.2) 60%,
+      hsla(0, 0%, 0%, 0.5)),
+    radial-gradient(circle at 50% 30%,
+      hsla(0, 0%, 100%, 0.6),
+      transparent 50%,
+      transparent);
+}
+
+.switch-toggle {
+  position: relative;
+  height: 50%;
+  width: calc(var(--switch-width) / 5.5);
+  z-index: 1;
+  background-color: hsl(0, 0%, 50%);
+  background-image:
+    linear-gradient(0deg,
+      hsla(0, 0%, 60%, 0.9),
+      hsla(0, 0%, 60%, 0)),
+    linear-gradient(90deg,
+      hsla(0, 0%, 10%, 0.45),
+      hsla(0, 0%, 10%, 0),
+      hsla(0, 0%, 10%, 0.45)),
+    linear-gradient(0deg,
+      hsla(0, 0%, 100%, 0.1),
+      hsla(0, 0%, 100%, 0.5) 90%,
+      hsla(0, 0%, 70%, 0.2));
+  border-radius:
+    calc(var(--switch-width) / 4) calc(var(--switch-width) / 4) calc(var(--switch-width) / 6) calc(var(--switch-width) / 6);
+  transform: translateY(38%) perspective(var(--switch-perspective)) rotateZ(180deg) rotateX(-15deg);
+}
+
+.switch input[type=checkbox]:checked+.switch-inner .switch-toggle {
+  transform: translateY(-38%) perspective(var(--switch-perspective)) rotateX(-15deg);
+}
+
+.switch-toggle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5%;
+  width: 110%;
+  height: 70%;
+  background-color: var(--switch-color);
+  border-radius:
+    calc(var(--switch-width) / 7) calc(var(--switch-width) / 7) calc(var(--switch-width) / 6) calc(var(--switch-width) / 6);
+}
+
+.switch-toggle:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5%;
+  width: 110%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background-image:
+    radial-gradient(ellipse 100% 70% at 50% 30%,
+      hsla(0, 0%, 100%, 0.25),
+      transparent 50%,
+      transparent);
+}
+
+.switch-label {
+  font-family: monospace;
+  font-weight: bold;
+  text-align: center;
+}

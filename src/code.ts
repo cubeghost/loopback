@@ -2,7 +2,6 @@ import { EFFECTS } from "./constants";
 import type {
   InputKey,
   SketchEffect,
-  SketchInput,
   SketchSource,
   SketchState,
 } from "./state/sketch";

@@ -30,11 +30,6 @@
   justify-content: flex-end;
 }
 
-.source fieldset {
-  border: 0;
-  min-width: auto;
-}
-
 .source-drag-overlay {
   position: absolute;
   inset: 0.5rem;
