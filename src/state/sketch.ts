@@ -1,10 +1,17 @@
 import { create } from "zustand";
 import { VIDEO_ASSETS, type Effect } from "../constants";
+import { createJSONStorage, persist } from "zustand/middleware";
+import { crushStorage } from "./url-store";
+import {
+  typedFromEntries,
+  typedObjectEntries,
+  typedObjectKeys,
+} from "../utils";
 
 export type SketchSource =
   | {
       type: "camera";
-      cameraIndex: number | string | null;
+      cameraIndex: number | string;
     }
   | {
       type: "video";
@@ -22,7 +29,18 @@ const DEFAULT_SOURCE_VALUES: {
   video: { videoUrl: "" },
   screen: {},
   noise: { noiseScale: "1", noiseSpeed: "0.5" },
-};
+} as const;
+const SOURCE_VALUE_KEYS: {
+  [K in SketchSource["type"]]: (keyof Omit<
+    Extract<SketchSource, { type: K }>,
+    "type"
+  >)[];
+} = {
+  camera: ["cameraIndex"],
+  video: ["videoUrl"],
+  screen: [],
+  noise: ["noiseScale", "noiseSpeed"],
+} as const;
 
 export type SketchEffect = {
   id: Effect["id"] | null;
@@ -59,68 +77,98 @@ export interface SketchState {
   setBlend: (blend: string) => void;
 }
 
-export const useSketch = create<SketchState>()((set) => ({
-  sources: {
-    0: {
-      type: "video",
-      videoUrl: VIDEO_ASSETS.find((v) => v.id === "wiki")!.videoUrl,
-    },
-    1: {
-      type: "video",
-      videoUrl: VIDEO_ASSETS[0].videoUrl,
-    },
-  },
-  setInputSource: (index, source) =>
-    set((state) => {
-      const currentSource = state.sources[index];
-      const sourceDefaults =
-        source.type && source.type !== currentSource.type
-          ? DEFAULT_SOURCE_VALUES[source.type]
-          : {};
-      return {
-        sources: {
-          ...state.sources,
-          [index]: {
-            ...sourceDefaults,
-            ...currentSource,
-            ...source,
-          } as SketchSource, // we merge properties from other source types as a way of saving previous state
+export const useSketch = create<SketchState>()(
+  persist(
+    (set) => ({
+      sources: {
+        0: {
+          type: "video",
+          videoUrl: VIDEO_ASSETS.find((v) => v.id === "wiki")!.videoUrl,
         },
-      };
-    }),
-
-  effects: {
-    0: {
-      id: "1",
-    },
-    1: {
-      id: null,
-    },
-  },
-  setInputEffect: (index, effect) =>
-    set((state) => ({
-      effects: {
-        ...state.effects,
-        [index]: {
-          ...state.effects[index],
-          ...effect,
+        1: {
+          type: "video",
+          videoUrl: VIDEO_ASSETS[0].videoUrl,
         },
       },
-    })),
+      setInputSource: (index, source) =>
+        set((state) => {
+          const currentSource = state.sources[index];
+          const sourceDefaults =
+            source.type && source.type !== currentSource.type
+              ? DEFAULT_SOURCE_VALUES[source.type]
+              : {};
+          return {
+            sources: {
+              ...state.sources,
+              [index]: {
+                ...sourceDefaults,
+                ...currentSource,
+                ...source,
+              } as SketchSource, // we merge properties from other source types as a way of saving previous state
+            },
+          };
+        }),
 
-  feedback: {
-    threshold: 0.1,
-    scale: 1,
-    offset: 1,
-    intensity: 0.01,
-    audioReactive: false,
-    audioReactiveAmount: 1,
-    mask: false,
-    followCursor: false,
-  },
-  setFeedback: (partial) =>
-    set((state) => ({ feedback: { ...state.feedback, ...partial } })),
+      effects: {
+        0: {
+          id: "1",
+        },
+        1: {
+          id: null,
+        },
+      },
+      setInputEffect: (index, effect) =>
+        set((state) => ({
+          effects: {
+            ...state.effects,
+            [index]: {
+              ...state.effects[index],
+              ...effect,
+            },
+          },
+        })),
 
-  blend: "0",
-  setBlend: (blend) => set({ blend }),
-}));
+      feedback: {
+        threshold: 0.1,
+        scale: 1,
+        offset: 1,
+        intensity: 0.01,
+        audioReactive: false,
+        audioReactiveAmount: 1,
+        mask: false,
+        followCursor: false,
+      },
+      setFeedback: (partial) =>
+        set((state) => ({ feedback: { ...state.feedback, ...partial } })),
+
+      blend: "0",
+      setBlend: (blend) => set({ blend }),
+    }),
+    {
+      name: "sketch",
+      storage: createJSONStorage(() => crushStorage),
+      partialize: (state) => ({
+        ...state,
+        sources: typedFromEntries(
+          typedObjectEntries(state.sources).map(([index, source]) => {
+            const partialSource = { ...source };
+
+            // cameraIndex is user/device-specific
+            if (partialSource.type === "camera") {
+              Reflect.deleteProperty(partialSource, "cameraIndex");
+            }
+
+            // remove values for other source types
+            typedObjectKeys(partialSource).forEach((key) => {
+              if (key === "type") return;
+              if (SOURCE_VALUE_KEYS[partialSource.type].includes(key)) return;
+              Reflect.deleteProperty(partialSource, key);
+            });
+
+            return [index, partialSource];
+          }),
+        ),
+      }),
+    },
+  ),
+);

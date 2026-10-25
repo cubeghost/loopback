@@ -85,6 +85,7 @@ label.control {
 label.control input[type=text],
 label.control input[type=number] {
   min-width: 0;
+  color: currentColor;
 }
 
 fieldset {

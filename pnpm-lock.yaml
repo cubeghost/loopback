@@ -20,6 +20,9 @@ importers:
       js-beautify:
         specifier: ^2.0.3
         version: 2.0.3
+      jsoncrush:
+        specifier: ^1.1.8
+        version: 1.1.8
       meyda:
         specifier: ^5.6.3
         version: 5.6.3
@@ -1108,6 +1111,9 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
+  jsoncrush@1.1.8:
+    resolution: {integrity: sha512-lvIMGzMUA0fjuqwNcxlTNRq2bibPZ9auqT/LyGdlR5hvydJtA/BasSgkx4qclqTKVeTidrJvsS/oVjlTCPQ4Nw==}
+
   lightningcss-android-arm64@1.33.0:
     resolution: {integrity: sha512-gEpRTalKdosp4Bb8qWtc2iOgE5SeIHlpS1up9bFq2wAyYhl1UdTObYiHe98zEM9SQvSoqQZ1IQD0JNpg3Ml5pg==}
     engines: {node: '>= 12.0.0'}
@@ -2131,6 +2137,8 @@ snapshots:
   jsesc@3.1.0: {}
 
   json5@2.2.3: {}
+
+  jsoncrush@1.1.8: {}
 
   lightningcss-android-arm64@1.33.0:
     optional: true
