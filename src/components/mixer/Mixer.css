@@ -1,10 +1,9 @@
 .mixer {
-  /* grid-area: mixer; */
   width: 494px;
   height: 124px;
   /* background-color: #0d3f61; */
-  margin-bottom: 2rem;
-  padding: 1rem 0 0.5rem 0;
+  margin-bottom: 1rem;
+  padding: 1rem 0.5rem 0.5rem;
   color: #0b72b7;
   --highlight: #0b588ba4;
 }
@@ -26,7 +25,7 @@
 }
 
 input[type=range].fader {
-  --thumb-color: #191919;
+  --thumb-color: #141924;
   --thumb-width: 3.5rem;
   --thumb-height: 1.75rem;
 

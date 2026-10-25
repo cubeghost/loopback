@@ -14,7 +14,7 @@
 
 .modifiers {
   grid-area: modifiers;
-  margin-top: 3rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;

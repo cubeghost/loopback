@@ -2,6 +2,8 @@
   width: 236px;
   height: 168px;
   padding: 1rem;
+  --foreground: #0e7047;
+  color: var(--foreground)
 }
 
 .surface.source:before {
@@ -11,6 +13,7 @@
 .input-panel-1 .surface.source {
   width: 244px;
   height: 162px;
+  --foreground: #331668;
 }
 
 .input-panel-1 .surface.source:before {

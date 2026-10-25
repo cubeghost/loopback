@@ -1,6 +1,7 @@
 @import "./visually-hidden.css";
 
 :root {
+  --sans-serif: "Space Grotesk", sans-serif;
   --monospace: "Space Mono", monospace;
 
   --metal-conic-gradient: conic-gradient(from 0deg,
@@ -28,6 +29,7 @@ body {
   margin: 0;
   background-color: #1b2632;
   color: #fff;
+  font-family: var(--sans-serif);
 }
 
 #root {
@@ -84,6 +86,7 @@ label.control input[type=range] {
 
 fieldset {
   border: 0;
+  margin: 0;
   min-width: auto;
 }
 
@@ -96,6 +99,11 @@ legend {
   display: flex;
   justify-content: space-between;
   padding-top: 0.25rem
+}
+
+label {
+  font-family: var(--monospace);
+  font-weight: bold;
 }
 
 .surface {
