@@ -34,7 +34,7 @@ export function InputSource({ source, setSource }: SourceProps) {
   return (
     <div className="surface source">
       <fieldset>
-        <legend>Source</legend>
+        <legend>source</legend>
         <select value={source.type} onChange={handleTypeChange}>
           <option>camera</option>
           <option>video</option>

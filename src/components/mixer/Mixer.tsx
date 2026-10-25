@@ -10,9 +10,9 @@ export function Mixer() {
   });
 
   return (
-    <div className="mixer">
+    <div className="mixer surface">
       <fieldset>
-        <legend>Blend</legend>
+        <legend>blend</legend>
         <label className="control">
           <input
             type="range"

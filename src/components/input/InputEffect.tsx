@@ -26,7 +26,7 @@ export function InputEffect({ index, effect, setEffect }: EffectProps) {
     <div className="surface effect">
       <fieldset>
         <legend>
-          <span>Effect</span>
+          <span>effect</span>
         </legend>
         <div className="effect-options">
           <label className="effect-option">

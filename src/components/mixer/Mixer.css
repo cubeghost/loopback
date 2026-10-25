@@ -1,8 +1,20 @@
 .mixer {
-  grid-area: mixer;
-  background-color: #0d3f61;
-  width: 32rem;
+  /* grid-area: mixer; */
+  width: 494px;
+  height: 124px;
+  /* background-color: #0d3f61; */
   margin-bottom: 2rem;
+  padding: 1rem 0 0.5rem 0;
+  color: #0b72b7;
+  --highlight: #0b588ba4;
+}
+
+.surface.mixer:before {
+  background-image: url(../../assets/mixer.gif);
+}
+
+.mixer legend {
+  padding-left: 0.5rem;
 }
 
 .mixer .control input[type=range] {
@@ -14,34 +26,31 @@
 }
 
 input[type=range].fader {
-  --thumb-color: #1b1b1b;
+  --thumb-color: #191919;
   --thumb-width: 3.5rem;
   --thumb-height: 1.75rem;
 
   --track-width: 100%;
   --track-height: 0.75rem;
 
-  --tick-color: rgba(255, 255, 255, 0.25);
-  --tick-width: 1px;
-  --tick-height: 0.75rem;
+  --tick-color: rgba(0, 139, 202, 0.1);
+  --tick-width: 2px;
+  --tick-height: 0.5rem;
   --tick-spacing: calc((var(--track-width) - var(--thumb-width)) / 10);
-  --tick-offset: calc(var(--thumb-width) / 2 + ((var(--tick-width) / 2) * -1));
+  --tick-x-offset: calc(var(--thumb-width) / 2 + ((var(--tick-width) / 2) * -1));
+  --tick-y-offset: calc(var(--tick-height) + 0.125rem);
 
   -webkit-appearance: none;
   position: relative;
   width: var(--track-width);
-  height: calc((var(--thumb-height) + var(--tick-height)) * 2);
+  height: calc(var(--thumb-height) + (var(--tick-y-offset) * 2));
   background: linear-gradient(90deg, var(--tick-color) var(--tick-width), transparent 0),
     linear-gradient(90deg, var(--tick-color) var(--tick-width), transparent 0);
   background-clip: padding-box;
-  background-position: var(--tick-offset) -0.125rem,
-    var(--tick-offset) calc(100% + 0.125rem);
+  background-position: var(--tick-x-offset) var(--tick-y-offset),
+    var(--tick-x-offset) calc(100% - var(--tick-y-offset));
   background-repeat: repeat-x;
   background-size: var(--tick-spacing) var(--tick-height);
-  background-color: currentColor;
-  border: solid 1em currentColor;
-  color: transparent;
-  font-size: 1em;
   cursor: pointer;
   overflow: visible;
 
@@ -124,7 +133,22 @@ input[type=range].fader::-moz-range-thumb {
   cursor: ew-resize;
 }
 
+input[type=range].fader:active,
 input[type=range].fader:focus {
   outline: none;
-  color: var(--highlight, rgba(255, 255, 255, 0.1));
+}
+
+input[type=range].fader:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: var(--track-width);
+  height: var(--track-height);
+  z-index: -1;
+}
+
+input[type=range].fader:focus:before,
+input[type=range].fader:active:before {
+  box-shadow: 0 0 0 calc(var(--track-height) / 4) var(--highlight, rgba(255, 255, 255, 0.1));
 }

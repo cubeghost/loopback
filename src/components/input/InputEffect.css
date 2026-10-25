@@ -3,7 +3,7 @@
   height: 204px;
   padding: 1rem;
   --highlight: #a8c23a;
-  --foreground: #312f24;
+  --foreground: #484f23;
   color: var(--foreground);
   /* background-color: #ad9d33; */
 }
@@ -15,7 +15,7 @@
 .input-panel-1 .surface.effect {
   height: 196px;
   --highlight: #4f55e9;
-  --foreground: #252433;
+  --foreground: #262076;
 }
 
 .input-panel-1 .surface.effect:before {
