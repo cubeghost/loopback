@@ -15,8 +15,8 @@
 
 <body style="margin: 0; overflow: hidden;">
   <dialog id="permissions">
-    <h2 id="permissions-prompt"></h2>
-    <button id="permissions-trigger"></button>
+    <h2 id="permissions-prompt">safari needs to be extra sure you want</h2>
+    <button id="permissions-trigger">share screen</button>
     <button commandfor="permissions" command="close">close</button>
   </dialog>
 
@@ -43,7 +43,7 @@
       hydra.eval(code);
     };
     const init = async (code) => {
-      if (code.includes("initScreen")) {
+      if (code && code.includes("initScreen")) {
 
       }
 
@@ -62,15 +62,17 @@
     }
 
     window.addEventListener("message", (event) => {
+      console.log("event.data", event.data)
       if ("detectAudio" in event.data && event.data.detectAudio !== hydra.detectAudio) {
         restartWithAudio(event.data.detectAudio);
       }
       switch (event.data.type) {
         case "hydra:start":
         case "hydra:render":
-          init(event.data.code);
+          run(event.data.code);
           return;
         case "hydra:init":
+          init(event.data.init);
           run(event.data.code);
           return;
       }

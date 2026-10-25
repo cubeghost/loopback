@@ -35,15 +35,25 @@ export function InputSource({ source, setSource }: SourceProps) {
     <div className="surface source">
       <fieldset>
         <legend>source</legend>
-        <select value={source.type} onChange={handleTypeChange}>
+        <select
+          className="source-type"
+          value={source.type}
+          onChange={handleTypeChange}
+          name="sourceType"
+        >
+          <button>
+            <selectedcontent></selectedcontent>
+          </button>
+
           <option>camera</option>
           <option>video</option>
           <option>screen</option>
           <option>noise</option>
         </select>
         {source.type === "camera" && (
-          <div>
+          <label className="control">
             <select
+              name="videoDevice"
               value={source.cameraIndex ?? ""}
               onChange={(event) => {
                 setSource({
@@ -52,46 +62,46 @@ export function InputSource({ source, setSource }: SourceProps) {
                 play();
               }}
             >
+              <button>
+                <selectedcontent></selectedcontent>
+              </button>
+
               {devices.map((device, index) => (
                 <option key={device.deviceId} value={index}>
                   {device.label ?? index}
                 </option>
               ))}
             </select>
-          </div>
+          </label>
         )}
         {source.type === "video" && (
-          <div>
-            <label>
-              <span>URL</span>
-              <input
-                type="text"
-                name="videoUrl"
-                value={source.videoUrl}
-                onChange={(event) => {
-                  setSource({ videoUrl: event.target.value });
-                  // play();
-                }}
-              />
-            </label>
-          </div>
+          <label className="control">
+            <span>URL</span>
+            <input
+              type="text"
+              name="videoUrl"
+              value={source.videoUrl}
+              onChange={(event) => {
+                setSource({ videoUrl: event.target.value });
+                // play();
+              }}
+            />
+          </label>
         )}
         {source.type === "noise" && (
           <>
-            <div>
-              <label>
-                <span>Scale</span>
-                <input
-                  type="number"
-                  name="noiseScale"
-                  value={source.noiseScale}
-                  onChange={(event) => {
-                    setSource({ noiseScale: event.target.value });
-                    play();
-                  }}
-                />
-              </label>
-            </div>
+            <label className="control">
+              <span>Scale</span>
+              <input
+                type="number"
+                name="noiseScale"
+                value={source.noiseScale}
+                onChange={(event) => {
+                  setSource({ noiseScale: event.target.value });
+                  play();
+                }}
+              />
+            </label>
           </>
         )}
         {/* {file ? <span>file.name</span> : null} */}

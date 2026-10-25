@@ -3,6 +3,7 @@
   height: 168px;
   padding: 1rem;
   --foreground: #0e7047;
+  --highlight: #87ffac;
   color: var(--foreground)
 }
 
@@ -14,6 +15,7 @@
   width: 244px;
   height: 162px;
   --foreground: #331668;
+  --highlight: #af83ff;
 }
 
 .input-panel-1 .surface.source:before {
@@ -33,6 +35,10 @@
   justify-content: flex-end;
 }
 
+.input-panel-1 .source fieldset {
+  text-align: center;
+}
+
 .source-drag-overlay {
   position: absolute;
   inset: 0.5rem;
@@ -42,4 +48,8 @@
 
 .source select {
   max-width: 100%;
+}
+
+.source .control {
+  margin: 0.25rem 0;
 }

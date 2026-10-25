@@ -6,11 +6,15 @@ import { ToggleSwitch } from "../toggle/ToggleSwitch";
 
 import "./Feedback.css";
 
+interface FeedbackProps {
+  enableAudio: boolean;
+}
+
 function rangePlaybackRate(normalized: number) {
   return 0.5 + normalized * 0.3;
 }
 
-export function Feedback() {
+export function Feedback({ enableAudio }: FeedbackProps) {
   const { feedback, setFeedback } = useSketch();
   const [playClick] = useSoundEffects("click_subtle");
   const [playScroll] = useSoundEffects("scroll", {
@@ -88,7 +92,7 @@ export function Feedback() {
             min={-5}
             max={5}
             style={{ "--knob-size": "3rem" } as React.CSSProperties}
-            disabled={!feedback.audioReactive}
+            disabled={!enableAudio || !feedback.audioReactive}
             led
             onChange={(value) => {
               setFeedback({ audioReactiveAmount: value });

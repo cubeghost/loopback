@@ -21,7 +21,7 @@ const DEFAULT_SOURCE_VALUES: {
   camera: { cameraIndex: "" },
   video: { videoUrl: "" },
   screen: {},
-  noise: { noiseScale: "5", noiseSpeed: "0.5" },
+  noise: { noiseScale: "1", noiseSpeed: "0.5" },
 };
 
 export type SketchEffect = {

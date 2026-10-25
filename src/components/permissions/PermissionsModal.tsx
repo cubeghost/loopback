@@ -21,16 +21,16 @@ export function PermissionsModal({ open, onClose }: PermissionsModalProps) {
   }, []);
 
   return (
-    <dialog ref={dialogRef} closedby="any" onClose={onClose}>
+    <dialog ref={dialogRef} closedby="any" onClose={onClose} className="permissions-modal">
       <div>
         <h3>loopback is the most fun with your camera and microphone on!</h3>
         <p>
           your camera is the default video input. your microphone allows for the feedback effects to
           react to audio.
         </p>
+      </div>
+      <div className="button-row">
         <button onClick={promptBoth}>allow camera and microphone</button>
-        <button onClick={promptCamera}>allow camera</button>
-        <button onClick={promptMicrophone}>allow microphone</button>
         <button onClick={onClose}>no thanks</button>
       </div>
     </dialog>

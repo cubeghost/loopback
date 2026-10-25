@@ -77,11 +77,14 @@ p {
 }
 
 label.control {
-  display: inline-block;
+  display: flex;
+  column-gap: 0.5rem;
+  align-items: center;
 }
 
-label.control input[type=range] {
-  width: 6rem
+label.control input[type=text],
+label.control input[type=number] {
+  min-width: 0;
 }
 
 fieldset {
@@ -101,9 +104,39 @@ legend {
   padding-top: 0.25rem
 }
 
-label {
+label:not(.control),
+label.control span {
   font-family: var(--monospace);
   font-weight: bold;
+}
+
+button,
+select,
+input[type=text],
+input[type=number] {
+  font-size: 1rem;
+  font-family: var(--sans-serif);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--highlight, #fff);
+  border: 0.125rem solid currentColor;
+}
+
+select,
+::picker(select) {
+  appearance: base-select;
+}
+
+select {
+  white-space: nowrap;
+  overflow: clip;
+}
+
+select selectedcontent {
+  white-space: nowrap;
+  overflow: clip;
+  text-overflow: ellipsis;
+  min-inline-size: 0;
 }
 
 .surface {

@@ -56,7 +56,8 @@ export function Hydra({ enableAudio }: HydraProps) {
     if (frameRef.current) {
       frameRef.current.contentWindow?.postMessage({
         type: "hydra:init",
-        code: generateHydraInitializer(0, source0),
+        init: generateHydraInitializer(0, source0),
+        code: generateHydraRender(useSketch.getState()),
       });
     }
   }, [source0]);
@@ -66,6 +67,7 @@ export function Hydra({ enableAudio }: HydraProps) {
       frameRef.current.contentWindow?.postMessage({
         type: "hydra:init",
         init: generateHydraInitializer(1, source1),
+        code: generateHydraRender(useSketch.getState()),
       });
     }
   }, [source1]);
