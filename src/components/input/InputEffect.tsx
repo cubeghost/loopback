@@ -1,6 +1,6 @@
 import type { ChangeEvent } from "react";
 
-import { EFFECTS } from "../../constants";
+import { EFFECTS } from "../../effects";
 import { useSoundEffects } from "../../hooks/useSoundEffects";
 import type { SketchEffect } from "../../state/sketch";
 
@@ -23,7 +23,7 @@ export function InputEffect({ index, effect, setEffect }: EffectProps) {
   }
 
   return (
-    <div className="surface effect">
+    <div className="surface effects">
       <fieldset>
         <legend>
           <span>effect</span>
@@ -44,8 +44,14 @@ export function InputEffect({ index, effect, setEffect }: EffectProps) {
           {EFFECTS.map((eff) => (
             <label key={eff.id} className="effect-option">
               <div className="thumbnail">
-                <img src={eff.thumbnail} className="thumbnail-gif" alt="TODO" />
-                <img src={eff.thumbnailStill} className="thumbnail-still" alt="TODO" />
+                {eff.thumbnailStill ? (
+                  <>
+                    <img src={eff.thumbnail} className="thumbnail-gif" alt="TODO" />
+                    <img src={eff.thumbnailStill} className="thumbnail-still" alt="TODO" />
+                  </>
+                ) : (
+                  <span>{eff.id}</span>
+                )}
               </div>
               <input
                 type="radio"

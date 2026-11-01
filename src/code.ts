@@ -1,11 +1,12 @@
-import { EFFECTS } from "./constants";
+import { BLEND_MODES } from "./constants";
+import { EFFECTS } from "./effects";
 import type {
   InputKey,
   SketchEffect,
   SketchSource,
   SketchState,
 } from "./state/sketch";
-import { typedFromEntries, typedObjectKeys } from "./utils";
+import { typedFromEntries, typedObjectEntries, typedObjectKeys } from "./utils";
 
 export const notFalse = (line: string | boolean) => line !== false;
 
@@ -15,6 +16,7 @@ const MOUSE_POSITIONS = [
 ].join("\n");
 
 const EFFECTS_MAP = new Map(EFFECTS.map((effect) => [effect.id, effect.code]));
+const BLEND_MODES_MAP = new Map(BLEND_MODES.map((mode) => [mode.id, mode.fn]));
 
 function generateHydraFeedbackCode(
   o: string,
@@ -54,6 +56,37 @@ function generateHydraFeedbackCode(
     .join("\n");
 }
 
+function generateHydraEffectsCode(sketch: SketchState) {
+  const inputs = mergeInputs(sketch);
+  return typedObjectEntries(inputs).map(([index, input]) => {
+    let source = (() => {
+      switch (input.source.type) {
+        case "camera":
+        case "video":
+        case "screen":
+          return `src(s${index})`;
+        case "noise":
+          return `noise(${input.source.noiseScale}, ${input.source.noiseSpeed})`;
+      }
+    })();
+    // source += `.scale(0.5)`;
+    if (input.effect.id && EFFECTS_MAP.has(input.effect.id)) {
+      source += EFFECTS_MAP.get(input.effect.id);
+    }
+    // source += `.out(o${index})`;
+    source += `.scale(0.5).out(o${index})`;
+    return source;
+  });
+}
+
+function generateHydraBlendCode(sketch: SketchState) {
+  const blendFn = BLEND_MODES_MAP.get(sketch.blendMode);
+  if (blendFn) {
+    return `src(o0)${blendFn(sketch.blend)}.out(o2)`;
+  }
+  return "src(o0).out(o2)";
+}
+
 // merge source and effect dicts
 type SketchInputs = {
   [K in InputKey]: { source: SketchSource; effect: SketchEffect };
@@ -72,27 +105,10 @@ function mergeInputs(sketch: SketchState): SketchInputs {
 
 export function generateHydraRender(sketch: SketchState) {
   const o = "o3";
-  const inputs = mergeInputs(sketch);
   const code = [
     sketch.feedback.followCursor ? MOUSE_POSITIONS : false,
-    ...Object.values(inputs).map((input, index) => {
-      let source = (() => {
-        switch (input.source.type) {
-          case "camera":
-          case "video":
-          case "screen":
-            return `src(s${index})`;
-          case "noise":
-            return `noise(${input.source.noiseScale}, ${input.source.noiseSpeed})`;
-        }
-      })();
-      if (input.effect.id && EFFECTS_MAP.has(input.effect.id)) {
-        source += EFFECTS_MAP.get(input.effect.id);
-      }
-      source += `.scale(0.5).out(o${index})`;
-      return source;
-    }),
-    `src(o0).blend(o1,${sketch.blend}).out(o2)`,
+    ...generateHydraEffectsCode(sketch),
+    generateHydraBlendCode(sketch),
     "",
     generateHydraFeedbackCode(o, sketch.feedback),
     "",

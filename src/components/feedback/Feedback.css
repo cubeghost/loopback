@@ -30,7 +30,7 @@
 
 .feedback .options-row {
   display: flex;
-  padding: 1rem 0.5rem;
+  padding: 1rem 0;
   gap: 0.5rem;
 }
 

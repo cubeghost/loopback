@@ -44,7 +44,6 @@ export function InputSource({ source, setSource }: SourceProps) {
           <button>
             <selectedcontent></selectedcontent>
           </button>
-
           <option>camera</option>
           <option>video</option>
           <option>screen</option>
@@ -65,7 +64,6 @@ export function InputSource({ source, setSource }: SourceProps) {
               <button>
                 <selectedcontent></selectedcontent>
               </button>
-
               {devices.map((device, index) => (
                 <option key={device.deviceId} value={index}>
                   {device.label ?? index}

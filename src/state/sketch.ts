@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { VIDEO_ASSETS, type Effect } from "../constants";
+import { VIDEO_ASSETS, type BlendMode } from "../constants";
+import type { Effect } from "../effects";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { crushStorage } from "./url-store";
 import {
@@ -75,6 +76,8 @@ export interface SketchState {
 
   blend: string;
   setBlend: (blend: string) => void;
+  blendMode: BlendMode["id"];
+  setBlendMode: (blendMode: BlendMode["id"]) => void;
 }
 
 export const useSketch = create<SketchState>()(
@@ -143,9 +146,12 @@ export const useSketch = create<SketchState>()(
 
       blend: "0",
       setBlend: (blend) => set({ blend }),
+      blendMode: "blend",
+      setBlendMode: (blendMode) => set({ blendMode }),
     }),
     {
       name: "sketch",
+      version: 1,
       storage: createJSONStorage(() => crushStorage),
       partialize: (state) => ({
         ...state,

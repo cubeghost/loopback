@@ -1,4 +1,4 @@
-.surface.effect {
+.surface.effects {
   width: 260px;
   height: 204px;
   padding: 1rem;
@@ -8,21 +8,21 @@
   /* background-color: #ad9d33; */
 }
 
-.surface.effect:before {
+.surface.effects:before {
   background-image: url(../../assets/blob_chartreuse.gif);
 }
 
-.input-panel-1 .surface.effect {
+.input-panel-1 .surface.effects {
   height: 196px;
   --highlight: #4f55e9;
   --foreground: #262076;
 }
 
-.input-panel-1 .surface.effect:before {
+.input-panel-1 .surface.effects:before {
   background-image: url(../../assets/blob_violet.gif);
 }
 
-.effect fieldset legend {
+.effects fieldset legend {
   padding-left: 3rem;
 }
 

@@ -5,11 +5,12 @@
   grid-template-columns: 1fr var(--hydra-width) 1fr;
   grid-template-rows: min-content min-content min-content 1fr;
   grid-template-areas:
+    ". logo ."
     "input-panel-0 frame input-panel-1"
     "modifiers modifiers modifiers"
     ". code .";
   gap: 1rem 1.5rem;
-  margin-top: 5rem;
+  margin-top: 0;
 }
 
 .modifiers {
@@ -21,4 +22,12 @@
   align-items: flex-start;
   justify-content: center;
   gap: 1rem;
+}
+
+.logo {
+  grid-area: logo;
+  margin-left: -5rem;
+  margin-bottom: -1rem;
+  z-index: 2;
+  image-rendering: pixelated;
 }

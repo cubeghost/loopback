@@ -1,3 +1,5 @@
+import type { SketchState } from "./state/sketch";
+
 export const HYDRA_WIDTH = 640;
 export const HYDRA_HEIGHT = 480;
 
@@ -30,34 +32,24 @@ export const VIDEO_ASSETS = [
   },
 ] as const;
 
-const effectThumbnails = import.meta.glob<string>("./assets/effects/*.gif", {
-  query: "",
-  import: "default",
-});
-const stillEffectThumbnails = import.meta.glob<string>(
-  "./assets/effects/*.gif",
+type BlendAmount = SketchState["blend"];
+export const BLEND_MODES = [
   {
-    query: "?format=png",
-    import: "default",
-  },
-);
-const getThumbnail = async (path: string) => await effectThumbnails[path]();
-const getStillThumbnail = async (path: string) =>
-  await stillEffectThumbnails[path]();
-
-export const EFFECTS = [
-  {
-    id: "1",
-    thumbnail: await getThumbnail("./assets/effects/1.gif"),
-    thumbnailStill: await getStillThumbnail("./assets/effects/1.gif"),
-    code: ".mult(osc(20, -0.1, 1).rotate(Math.PI * 0.5))",
+    id: "blend",
+    fn: (amount: BlendAmount) => `.blend(o1,${amount})`,
   },
   {
-    id: "2",
-    thumbnail: await getThumbnail("./assets/effects/2.gif"),
-    thumbnailStill: await getStillThumbnail("./assets/effects/2.gif"),
-    code: ".modulateKaleid(osc(3,0.5,0),5).modulateRotate(osc(0.75,0.5,0),1,0)",
+    id: "add",
+    fn: (amount: BlendAmount) => `.add(o1,${amount})`,
+  },
+  {
+    id: "subtract",
+    fn: (amount: BlendAmount) => `.sub(o1,${amount})`,
+  },
+  {
+    id: "multiply",
+    fn: (amount: BlendAmount) => `.mult(o1,${amount})`,
   },
 ] as const;
 
-export type Effect = (typeof EFFECTS)[number];
+export type BlendMode = (typeof BLEND_MODES)[number];
