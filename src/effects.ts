@@ -15,6 +15,12 @@ const getStillThumbnail = async (path: string) =>
 
 export const EFFECTS = [
   {
+    id: "0",
+    thumbnail: null,
+    thumbnailStill: (await import("./assets/effects/none_2.png")).default,
+    code: null,
+  },
+  {
     id: "1",
     thumbnail: await getThumbnail("./assets/effects/1.gif"),
     thumbnailStill: await getStillThumbnail("./assets/effects/1.gif"),

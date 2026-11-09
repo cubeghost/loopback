@@ -70,7 +70,7 @@ function generateHydraEffectsCode(sketch: SketchState) {
       }
     })();
     // source += `.scale(0.5)`;
-    if (input.effect.id && EFFECTS_MAP.has(input.effect.id)) {
+    if (input.effect.id && !!EFFECTS_MAP.get(input.effect.id)) {
       source += EFFECTS_MAP.get(input.effect.id);
     }
     // source += `.out(o${index})`;

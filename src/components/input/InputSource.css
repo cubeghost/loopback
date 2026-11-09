@@ -1,38 +1,46 @@
 .surface.source {
-  width: 236px;
-  height: 168px;
+  --surface-width: 116px;
+  --surface-height: 93px;
   padding: 1rem;
   --foreground: #0e7047;
   --highlight: #87ffac;
-  color: var(--foreground)
+  color: var(--foreground);
 }
 
 .surface.source:before {
-  background-image: url(../../assets/blob_green.gif);
+  background-image: url(../../assets/blob_green_2.gif);
+}
+
+.input-panel-0 .surface.source {
+  margin-left: 2rem;
 }
 
 .input-panel-1 .surface.source {
-  width: 244px;
-  height: 162px;
+  margin-right: 2rem;
+  --surface-width: 117px;
+  --surface-height: 93px;
   --foreground: #331668;
   --highlight: #af83ff;
 }
 
 .input-panel-1 .surface.source:before {
-  background-image: url(../../assets/blob_purple.gif);
+  background-image: url(../../assets/blob_purple_2.gif);
 }
 
 .source {
-  width: calc(100% - 20px);
   margin: 1rem 0;
 }
 
 .source fieldset legend {
-  padding: 0 2.5rem;
+  padding: 0 0.25rem;
+  padding-bottom: 0.5rem;
 }
 
 .input-panel-1 .source fieldset legend {
   justify-content: flex-end;
+  position: absolute;
+  bottom: 0.85rem;
+  right: 1.85rem;
 }
 
 .input-panel-1 .source fieldset {
@@ -52,4 +60,14 @@
 
 .source .control {
   margin: 0.25rem 0;
+}
+
+.source .port {
+  bottom: 0;
+  left: 60px;
+}
+
+.input-panel-1 .source .port {
+  bottom: 26px;
+  left: 46px;
 }

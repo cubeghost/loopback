@@ -106,6 +106,7 @@ export function InputSource({ source, setSource }: SourceProps) {
         {/* <input {...getInputProps()} /> */}
       </fieldset>
       {/* {isDragGlobal && <div className="source-drag-overlay">Drop to upload</div>} */}
+      <div className="port port-vertical" />
     </div>
   );
 }

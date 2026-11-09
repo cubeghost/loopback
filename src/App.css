@@ -1,21 +1,23 @@
 .app {
-  /* max-width: 1024px; */
+  width: 100%;
+  max-width: var(--max-width);
   margin: 1rem auto;
+  margin-top: 5.75rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.app>.grid {
   display: grid;
-  grid-template-columns: 1fr var(--hydra-width) 1fr;
-  grid-template-rows: min-content min-content min-content 1fr;
+  grid-template-columns: 1fr minmax(0, var(--hydra-width)) 1fr;
+  grid-template-rows: min-content;
   grid-template-areas:
-    ". logo ."
-    "input-panel-0 frame input-panel-1"
-    "modifiers modifiers modifiers"
-    ". code .";
-  gap: 1rem 1.5rem;
-  margin-top: 0;
+    "input-panel-0 frame input-panel-1";
+  order: -1;
 }
 
 .modifiers {
-  grid-area: modifiers;
-  margin-top: 2rem;
+  /* margin-top: 5rem; */
   display: flex;
   flex-direction: row-reverse;
   flex-wrap: wrap;
@@ -25,9 +27,15 @@
 }
 
 .logo {
-  grid-area: logo;
-  margin-left: -5rem;
-  margin-bottom: -1rem;
+  margin: 0 auto;
+  margin-bottom: 0.25rem;
+  width: var(--hydra-width);
   z-index: 2;
   image-rendering: pixelated;
+  text-align: right;
+}
+
+.logo img {
+  height: 116px;
+  margin-right: -6rem;
 }

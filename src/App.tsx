@@ -2,7 +2,7 @@ import { usePermission } from "@reactuses/core";
 import { useEffect, useState } from "react";
 import { useShallow } from "zustand/shallow";
 
-import Logo from "./assets/logo_2_2.gif";
+import Logo from "./assets/logo_2_5.gif";
 import { Assets } from "./components/Assets";
 import { Credits } from "./components/Credits";
 import { Feedback } from "./components/feedback/Feedback";
@@ -60,16 +60,19 @@ function App() {
           <img src={Logo} alt="loopback" />
         </h1>
 
-        <Input index={0} />
-        <Input index={1} />
+        <div className="grid">
+          <Input index={0} />
+          <Input index={1} />
 
-        <Hydra enableAudio={microphone === "granted"} />
+          <Hydra enableAudio={microphone === "granted"} />
+        </div>
+
         <div className="modifiers">
           <Mixer />
           <Feedback enableAudio={microphone === "granted"} />
         </div>
 
-        <HydraCode />
+        {/* <HydraCode /> */}
 
         {/* <Assets /> */}
 

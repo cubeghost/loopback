@@ -7,11 +7,11 @@
 .hydra-frame {
   pointer-events: none;
   position: absolute;
-  inset: -54px -150px -54px -160px;
-  border-image-source: url(../../assets/blob_frame_2.gif);
+  inset: -88px -92px -118px -92px;
+  border-image-source: url(../../assets/frame_4.gif);
   border-style: solid;
-  border-image-slice: 29 87 29 90;
-  border-image-width: 58px 178px 58px 182px;
+  border-image-slice: 48 50 64 50;
+  border-image-width: 96px 100px 128px 100px;
   image-rendering: pixelated;
   z-index: 1;
 }
