@@ -1,6 +1,6 @@
 .surface.effects {
-  width: 260px;
-  height: 204px;
+  --surface-width: 154px;
+  --surface-height: 124px;
   padding: 1rem;
   --highlight: #a8c23a;
   --foreground: #484f23;
@@ -9,26 +9,71 @@
 }
 
 .surface.effects:before {
-  background-image: url(../../assets/blob_chartreuse.gif);
+  background-image: url(../../assets/blob_chartreuse_2.gif);
 }
 
 .input-panel-1 .surface.effects {
-  height: 196px;
+  --surface-width: 150px;
+  --surface-height: 118px;
   --highlight: #4f55e9;
   --foreground: #262076;
 }
 
 .input-panel-1 .surface.effects:before {
-  background-image: url(../../assets/blob_violet.gif);
+  background-image: url(../../assets/blob_violet_2.gif);
 }
 
 .effects fieldset legend {
   padding-left: 3rem;
 }
 
-.effect-options {
+.effect-picker {
+  position: absolute;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 8.5rem;
+  height: 8.5rem;
+}
+
+.input-panel-0 .effect-picker {
+  top: 4.6rem;
+  left: 8.05rem;
+}
+
+.input-panel-1 .effect-picker {
+  top: 5rem;
+  left: 2.2rem;
+}
+
+.effect-options {
+  position: relative;
+  --effect-size: 4rem;
+  width: var(--effect-size);
+  height: var(--effect-size);
+  overflow: clip;
+  --ring: rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 0 0 3px var(--ring),
+    0 0 6px 6px rgba(255, 255, 255, 0.05);
+  background-color: #c0c7b7;
+  border-radius: 42%;
+  box-sizing: content-box;
+}
+
+.input-panel-0 .effect-options:has(:focus-visible) {
+  --ring: #8dad33;
+}
+
+.input-panel-1 .effect-options:has(:focus-visible) {
+  --ring: #4c51dd;
+}
+
+.effect-options-inner {
+  position: absolute;
+  transform: translateY(calc(var(--effect-size) * var(--effect-value) * -1));
+  display: flex;
+  flex-direction: column;
 }
 
 .effect-option {
@@ -36,33 +81,87 @@
   image-rendering: pixelated;
   position: relative;
   display: block;
-  width: 2rem;
-  height: 2rem;
-  border: 3px solid transparent;
-  border-radius: 6px;
   overflow: hidden;
+  width: var(--effect-size);
+  height: var(--effect-size);
 }
 
 .effect-option input[type=radio] {
   position: absolute;
   opacity: 0;
-  width: 2rem;
-  height: 2rem;
-  top: 0;
-  left: 0;
   margin: 0;
+  padding: 0;
+  inset: 0;
 }
 
-.effect-option:has(> input[type=radio]:checked) {
-  border-color: var(--highlight);
-  background-color: var(--highlight);
+.effect-option input[type=radio]:focus-visible {
+  outline: 0;
+  outline-offset: 0;
 }
+
+.effect-option:has(> input[type=radio]:checked) {}
+
+.effect-picker-controls {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: rotate(-20deg);
+  pointer-events: none;
+}
+
+.effect-picker-controls button {
+  border-width: 0;
+  background-color: transparent;
+  font-family: monospace;
+  transform: scaleY(2);
+  font-size: 1.25rem;
+  line-height: 1;
+  margin: 0 0.5rem;
+  aspect-ratio: 1;
+  border-radius: 0;
+  padding: 0 0.25rem;
+  position: relative;
+  text-shadow: 0 0 3px hsla(0, 0%, 100%, 0.1);
+  color: var(--color);
+  pointer-events: all;
+}
+
+.effect-picker-controls button:hover {
+  color: var(--hover-color);
+}
+
+.effect-picker-controls button:active,
+.effect-picker-controls button:focus {
+  outline: none;
+  color: var(--pressed-color);
+}
+
+.input-panel-0 .effect-picker-controls button {
+  --color: #384818;
+  --hover-color: #303e13;
+  --pressed-color: #1c270f;
+}
+
+.input-panel-1 .effect-picker-controls button {
+  --color: #232259;
+  --hover-color: #1f1e54;
+  --pressed-color: #121136;
+}
+
+.effect-picker-controls .previous-effect {}
+
+.effect-picker-controls .next-effect {}
 
 .effect-option .thumbnail {
   display: block;
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.effect-option .thumbnail img {
+  width: 100%;
 }
 
 .effect-option .thumbnail .thumbnail-still {
@@ -71,13 +170,33 @@
   left: 0;
 }
 
-.effect-option:hover .thumbnail-still,
-.effect-option:focus .thumbnail-still {
+.effect-option .thumbnail .thumbnail-gif {
   opacity: 0;
 }
 
-.effect-option .thumbnail-none {
-  background-color: var(--foreground);
-  mask: url(../../assets/effects/none.png);
-  opacity: 0.7;
+.effect-option:hover .thumbnail:has(.thumbnail-gif) .thumbnail-still,
+.effect-option:focus .thumbnail:has(.thumbnail-gif) .thumbnail-still {
+  opacity: 0;
+}
+
+.effect-option:hover .thumbnail:has(.thumbnail-gif) .thumbnail-gif,
+.effect-option:focus .thumbnail:has(.thumbnail-gif) .thumbnail-gif {
+  opacity: 1;
+}
+
+.effect-option.effect-option-0 {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.effect-option.effect-option-0:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 42%;
+  background-color: #c0c7b7;
+  transform: translate(3px, 3px);
+}
+
+.effect-option.effect-option-0 .thumbnail {
+  opacity: 0.35;
 }

@@ -44,7 +44,7 @@ const SOURCE_VALUE_KEYS: {
 } as const;
 
 export type SketchEffect = {
-  id: Effect["id"] | null;
+  id: Effect["id"];
 };
 
 export interface SketchFeedback {
@@ -117,7 +117,7 @@ export const useSketch = create<SketchState>()(
           id: "1",
         },
         1: {
-          id: null,
+          id: "0",
         },
       },
       setInputEffect: (index, effect) =>

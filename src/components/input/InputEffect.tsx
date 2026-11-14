@@ -1,4 +1,5 @@
-import type { ChangeEvent } from "react";
+import clsx from "clsx";
+import { type ChangeEvent } from "react";
 
 import { EFFECTS } from "../../effects";
 import { useSoundEffects } from "../../hooks/useSoundEffects";
@@ -13,13 +14,25 @@ interface EffectProps {
 }
 
 export function InputEffect({ index, effect, setEffect }: EffectProps) {
-  const group = `effect-${index}`;
   const [play] = useSoundEffects("click_juicy");
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const value = event.target.value === "null" ? null : event.target.value;
-    setEffect({ id: value as SketchEffect["id"] });
+    setEffect({ id: event.target.value as SketchEffect["id"] });
     play();
+  }
+
+  function selectPrevious() {
+    const previous = (parseInt(effect.id) - 1 + EFFECTS.length) % EFFECTS.length;
+    setEffect({
+      id: previous.toString() as SketchEffect["id"],
+    });
+  }
+
+  function selectNext() {
+    const next = (parseInt(effect.id) + 1) % EFFECTS.length;
+    setEffect({
+      id: next.toString() as SketchEffect["id"],
+    });
   }
 
   return (
@@ -28,40 +41,45 @@ export function InputEffect({ index, effect, setEffect }: EffectProps) {
         <legend>
           <span>effect</span>
         </legend>
-        <div className="effect-options">
-          <label className="effect-option">
-            <div className="thumbnail thumbnail-none">
-              <span className="visually-hidden">None</span>
+        <div className="effect-picker" role="group">
+          <div
+            className="effect-options"
+            style={{ "--effect-value": effect.id } as React.CSSProperties}
+          >
+            <div className="effect-options-inner">
+              {EFFECTS.map((eff) => (
+                <label key={eff.id} className={clsx("effect-option", `effect-option-${eff.id}`)}>
+                  <div className="thumbnail">
+                    {eff.thumbnailStill ? (
+                      <>
+                        {eff.thumbnail && (
+                          <img src={eff.thumbnail} className="thumbnail-gif" alt="TODO" />
+                        )}
+                        <img src={eff.thumbnailStill} className="thumbnail-still" alt="TODO" />
+                      </>
+                    ) : (
+                      <span>{eff.id}</span>
+                    )}
+                  </div>
+                  <input
+                    type="radio"
+                    name={`effect-${index}`}
+                    value={eff.id}
+                    checked={effect.id === eff.id}
+                    onChange={handleChange}
+                  />
+                </label>
+              ))}
             </div>
-            <input
-              type="radio"
-              name={group}
-              value="null"
-              checked={effect.id === null}
-              onChange={handleChange}
-            />
-          </label>
-          {EFFECTS.map((eff) => (
-            <label key={eff.id} className="effect-option">
-              <div className="thumbnail">
-                {eff.thumbnailStill ? (
-                  <>
-                    <img src={eff.thumbnail} className="thumbnail-gif" alt="TODO" />
-                    <img src={eff.thumbnailStill} className="thumbnail-still" alt="TODO" />
-                  </>
-                ) : (
-                  <span>{eff.id}</span>
-                )}
-              </div>
-              <input
-                type="radio"
-                name={group}
-                value={eff.id}
-                checked={effect.id === eff.id}
-                onChange={handleChange}
-              />
-            </label>
-          ))}
+          </div>
+          <div className="effect-picker-controls">
+            <button onClick={selectPrevious} className="previous-effect">
+              &#9664;
+            </button>
+            <button onClick={selectNext} className="next-effect">
+              &#9654;
+            </button>
+          </div>
         </div>
       </fieldset>
     </div>

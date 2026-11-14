@@ -1,9 +1,18 @@
 .input-panel {
   grid-area: var(--grid-area);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  gap: 2rem;
+  margin-top: -2rem;
 }
 
-.input-connect {}
+.input-panel-0 {
+  margin-right: 0.5rem;
+  align-items: flex-start;
+}
+
+.input-panel-1 {
+  margin-left: 0.5rem;
+  align-items: flex-end;
+}

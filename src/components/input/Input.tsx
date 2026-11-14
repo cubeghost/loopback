@@ -32,7 +32,6 @@ export function Input({ index }: InputProps) {
         style={
           {
             "--grid-area": `input-panel-${index}`,
-            alignItems: index === 0 ? "flex-end" : "flex-start",
           } as React.CSSProperties
         }
       >

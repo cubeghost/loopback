@@ -4,6 +4,8 @@
   --sans-serif: "Space Grotesk", sans-serif;
   --monospace: "Space Mono", monospace;
 
+  --max-width: 1340px;
+
   --metal-conic-gradient: conic-gradient(from 0deg,
       hsla(0, 0%, 10%, 0.5),
       hsla(0, 0%, 50%, 0.5),
@@ -80,7 +82,6 @@ legend {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding-top: 0.25rem
 }
 
 label:not(.control),
@@ -121,6 +122,8 @@ select selectedcontent {
 .surface {
   position: relative;
   z-index: 2;
+  width: calc(var(--surface-width) * 2);
+  height: calc(var(--surface-height) * 2);
 }
 
 .surface:before {
@@ -130,4 +133,17 @@ select selectedcontent {
   background-size: 100% 100%;
   image-rendering: pixelated;
   z-index: -1;
+}
+
+.port {
+  position: absolute;
+  background-size: 100% 100%;
+  image-rendering: pixelated;
+  z-index: -2;
+}
+
+.port-vertical {
+  background-image: url(assets/port_vertical_2.gif);
+  width: 22px;
+  height: 8px;
 }
