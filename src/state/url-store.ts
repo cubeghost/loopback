@@ -5,7 +5,7 @@ export const crushStorage: StateStorage = {
   getItem: (key): string => {
     const searchParams = new URLSearchParams(location.search);
     const storedValue = searchParams.get(key) ?? "";
-    return JSON.parse(JSONCrush.uncrush(storedValue));
+    return JSON.parse(JSONCrush.uncrush(decodeURIComponent(storedValue)));
   },
   setItem: (key, newValue): void => {
     const searchParams = new URLSearchParams(location.search);
